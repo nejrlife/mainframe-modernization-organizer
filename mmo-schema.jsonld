@@ -1,0 +1,499 @@
+{
+  "@context": {
+    "sro": "http://example.org/sro#",
+    "schema": "http://schema.org/",
+    "id": "@id",
+    "type": "@type",
+    "name": "schema:name",
+    "description": "schema:description",
+    "attributes": "sro:attributes",
+    "identityKey": "sro:identityKey",
+    "humanRef": "sro:humanRef",
+    "invariant": "sro:invariant",
+    "hasState": {
+      "@id": "sro:hasState",
+      "@type": "@id"
+    },
+    "initialState": {
+      "@id": "sro:initialState",
+      "@type": "@id"
+    },
+    "terminalStates": {
+      "@id": "sro:terminalStates",
+      "@type": "@id"
+    },
+    "relatesTo": {
+      "@id": "sro:relatesTo",
+      "@type": "@id"
+    },
+    "emitsEvent": {
+      "@id": "sro:emitsEvent",
+      "@type": "@id"
+    },
+    "from": {
+      "@id": "sro:from",
+      "@type": "@id"
+    },
+    "to": {
+      "@id": "sro:to",
+      "@type": "@id"
+    },
+    "precondition": "sro:precondition",
+    "postcondition": "sro:postcondition",
+    "Entity": "sro:Entity",
+    "Operation": "sro:Operation",
+    "State": "sro:State"
+  },
+  "@graph": [
+    {
+      "id": "sro:SystemNode",
+      "type": "Entity",
+      "name": "SystemNode",
+      "description": "A system or application in the modernization landscape",
+      "identityKey": "id: UUID",
+      "humanRef": "label",
+      "attributes": {
+        "id": "string",
+        "label": "string",
+        "position": "object {x: number, y: number}",
+        "status": "LEGACY|IN_PROGRESS|MODERNIZED|DEPRECATED",
+        "poc": "object {name: string, email: string, phone: string, department: string}",
+        "details": "object {description: string, technology: string, criticality: HIGH|MEDIUM|LOW, users: number, migrationTarget: string, timeline: string, notes: string}"
+      },
+      "invariant": [
+        "id must be unique",
+        "label must not be empty",
+        "status must be one of: LEGACY, IN_PROGRESS, MODERNIZED, DEPRECATED",
+        "criticality must be one of: HIGH, MEDIUM, LOW",
+        "position coordinates must be valid numbers"
+      ],
+      "hasState": [
+        "sro:LegacyState",
+        "sro:InProgressState",
+        "sro:ModernizedState",
+        "sro:DeprecatedState"
+      ],
+      "initialState": "sro:LegacyState",
+      "terminalStates": [
+        "sro:ModernizedState",
+        "sro:DeprecatedState"
+      ],
+      "relatesTo": [
+        "sro:Integration",
+        "sro:PointOfContact",
+        "sro:SystemDetails"
+      ],
+      "emitsEvent": [
+        "sro:NodeCreated",
+        "sro:NodeUpdated",
+        "sro:NodeDeleted",
+        "sro:StatusChanged"
+      ]
+    },
+    {
+      "id": "sro:Integration",
+      "type": "Entity",
+      "name": "Integration",
+      "description": "A connection between two systems representing data flow or communication",
+      "identityKey": "id: UUID",
+      "humanRef": "id",
+      "attributes": {
+        "id": "string",
+        "source": "string",
+        "target": "string",
+        "integrationType": "API|FILE_TRANSFER|DATABASE|MESSAGE_QUEUE|BATCH|DIRECT",
+        "status": "NOT_STARTED|IN_PROGRESS|COMPLETED|BLOCKED",
+        "direction": "UNIDIRECTIONAL|BIDIRECTIONAL",
+        "criticality": "HIGH|MEDIUM|LOW",
+        "protocol": "string",
+        "dataFormat": "string",
+        "frequency": "string",
+        "notes": "string"
+      },
+      "invariant": [
+        "id must be unique",
+        "source and target must reference valid SystemNode ids",
+        "source and target must be different",
+        "integrationType must be one of: API, FILE_TRANSFER, DATABASE, MESSAGE_QUEUE, BATCH, DIRECT",
+        "status must be one of: NOT_STARTED, IN_PROGRESS, COMPLETED, BLOCKED",
+        "criticality must be one of: HIGH, MEDIUM, LOW"
+      ],
+      "hasState": [
+        "sro:IntegrationNotStarted",
+        "sro:IntegrationInProgress",
+        "sro:IntegrationCompleted",
+        "sro:IntegrationBlocked"
+      ],
+      "initialState": "sro:IntegrationNotStarted",
+      "terminalStates": [
+        "sro:IntegrationCompleted"
+      ],
+      "relatesTo": [
+        "sro:SystemNode"
+      ],
+      "emitsEvent": [
+        "sro:IntegrationCreated",
+        "sro:IntegrationUpdated",
+        "sro:IntegrationDeleted",
+        "sro:IntegrationStatusChanged"
+      ]
+    },
+    {
+      "id": "sro:PointOfContact",
+      "type": "Entity",
+      "name": "PointOfContact",
+      "description": "Person responsible for a system in the modernization initiative",
+      "identityKey": "email: string",
+      "humanRef": "name",
+      "attributes": {
+        "name": "string",
+        "email": "string",
+        "phone": "string",
+        "department": "string"
+      },
+      "invariant": [
+        "email must be valid format",
+        "name must not be empty"
+      ],
+      "relatesTo": [
+        "sro:SystemNode"
+      ]
+    },
+    {
+      "id": "sro:SystemDetails",
+      "type": "Entity",
+      "name": "SystemDetails",
+      "description": "Detailed information about a system including technical and business aspects",
+      "identityKey": "systemNodeId: UUID",
+      "humanRef": "description",
+      "attributes": {
+        "description": "string",
+        "technology": "string",
+        "criticality": "HIGH|MEDIUM|LOW",
+        "users": "number",
+        "migrationTarget": "string",
+        "timeline": "string",
+        "notes": "string"
+      },
+      "invariant": [
+        "criticality must be one of: HIGH, MEDIUM, LOW",
+        "users must be non-negative number"
+      ],
+      "relatesTo": [
+        "sro:SystemNode"
+      ]
+    },
+    {
+      "id": "sro:ModernizationCanvas",
+      "type": "Entity",
+      "name": "ModernizationCanvas",
+      "description": "The interactive workspace containing all systems and integrations",
+      "identityKey": "canvasId: UUID",
+      "humanRef": "name",
+      "attributes": {
+        "canvasId": "string",
+        "name": "string",
+        "nodes": "array of SystemNode",
+        "edges": "array of Integration",
+        "viewport": "object {x: number, y: number, zoom: number}",
+        "exportTimestamp": "string",
+        "version": "string"
+      },
+      "invariant": [
+        "canvasId must be unique",
+        "nodes array must contain valid SystemNode objects",
+        "edges array must contain valid Integration objects",
+        "zoom must be positive number"
+      ],
+      "relatesTo": [
+        "sro:SystemNode",
+        "sro:Integration",
+        "sro:Statistics"
+      ],
+      "emitsEvent": [
+        "sro:CanvasExported",
+        "sro:CanvasImported",
+        "sro:CanvasCleared"
+      ]
+    },
+    {
+      "id": "sro:Statistics",
+      "type": "Entity",
+      "name": "Statistics",
+      "description": "Aggregated metrics about the modernization initiative",
+      "identityKey": "canvasId: UUID",
+      "humanRef": "summary",
+      "attributes": {
+        "totalSystems": "number",
+        "legacySystems": "number",
+        "inProgressSystems": "number",
+        "modernizedSystems": "number",
+        "deprecatedSystems": "number",
+        "totalIntegrations": "number",
+        "completedIntegrations": "number"
+      },
+      "invariant": [
+        "All counts must be non-negative",
+        "totalSystems must equal sum of status-specific counts",
+        "completedIntegrations must not exceed totalIntegrations"
+      ],
+      "relatesTo": [
+        "sro:ModernizationCanvas"
+      ]
+    },
+    {
+      "id": "sro:CreateNode",
+      "type": "Operation",
+      "name": "CreateNode",
+      "description": "Creates a new system node on the canvas",
+      "from": "sro:ModernizationCanvas",
+      "to": "sro:SystemNode",
+      "precondition": [
+        "Canvas must exist",
+        "Node id must be unique",
+        "Position must be valid coordinates"
+      ],
+      "postcondition": [
+        "New SystemNode is added to canvas",
+        "Node has default status LEGACY",
+        "Node has default criticality MEDIUM",
+        "Statistics are updated",
+        "NodeCreated event is emitted"
+      ]
+    },
+    {
+      "id": "sro:UpdateNode",
+      "type": "Operation",
+      "name": "UpdateNode",
+      "description": "Updates properties of an existing system node",
+      "from": "sro:SystemNode",
+      "to": "sro:SystemNode",
+      "precondition": [
+        "SystemNode must exist",
+        "New values must be valid according to schema",
+        "Status change must be valid transition"
+      ],
+      "postcondition": [
+        "SystemNode properties are updated",
+        "Visual representation reflects changes",
+        "Statistics are recalculated if status changed",
+        "NodeUpdated event is emitted"
+      ]
+    },
+    {
+      "id": "sro:DeleteNode",
+      "type": "Operation",
+      "name": "DeleteNode",
+      "description": "Removes a system node and all connected integrations from the canvas",
+      "from": "sro:SystemNode",
+      "to": "sro:ModernizationCanvas",
+      "precondition": [
+        "SystemNode must exist",
+        "User confirms deletion"
+      ],
+      "postcondition": [
+        "SystemNode is removed from canvas",
+        "All connected Integrations are removed",
+        "Statistics are updated",
+        "NodeDeleted event is emitted"
+      ]
+    },
+    {
+      "id": "sro:CreateIntegration",
+      "type": "Operation",
+      "name": "CreateIntegration",
+      "description": "Creates a new integration between two system nodes",
+      "from": "sro:SystemNode",
+      "to": "sro:SystemNode",
+      "precondition": [
+        "Source SystemNode must exist",
+        "Target SystemNode must exist",
+        "Source and target must be different nodes",
+        "Integration id must be unique"
+      ],
+      "postcondition": [
+        "New Integration is created connecting source and target",
+        "Integration has default status NOT_STARTED",
+        "Integration is visible on canvas",
+        "Statistics are updated",
+        "IntegrationCreated event is emitted"
+      ]
+    },
+    {
+      "id": "sro:UpdateIntegration",
+      "type": "Operation",
+      "name": "UpdateIntegration",
+      "description": "Updates properties of an existing integration",
+      "from": "sro:Integration",
+      "to": "sro:Integration",
+      "precondition": [
+        "Integration must exist",
+        "New values must be valid according to schema",
+        "Status change must be valid transition"
+      ],
+      "postcondition": [
+        "Integration properties are updated",
+        "Visual representation reflects changes",
+        "Statistics are recalculated if status changed",
+        "IntegrationUpdated event is emitted"
+      ]
+    },
+    {
+      "id": "sro:DeleteIntegration",
+      "type": "Operation",
+      "name": "DeleteIntegration",
+      "description": "Removes an integration from the canvas while preserving connected nodes",
+      "from": "sro:Integration",
+      "to": "sro:ModernizationCanvas",
+      "precondition": [
+        "Integration must exist",
+        "User confirms deletion"
+      ],
+      "postcondition": [
+        "Integration is removed from canvas",
+        "Connected SystemNodes remain intact",
+        "Statistics are updated",
+        "IntegrationDeleted event is emitted"
+      ]
+    },
+    {
+      "id": "sro:ExportCanvas",
+      "type": "Operation",
+      "name": "ExportCanvas",
+      "description": "Exports the current canvas state to a JSON file",
+      "from": "sro:ModernizationCanvas",
+      "to": "sro:ModernizationCanvas",
+      "precondition": [
+        "Canvas must exist",
+        "Canvas must contain valid data"
+      ],
+      "postcondition": [
+        "JSON file is generated with all nodes and edges",
+        "Export includes timestamp and version",
+        "File naming follows format: modernization-map-{timestamp}.json",
+        "CanvasExported event is emitted"
+      ]
+    },
+    {
+      "id": "sro:ImportCanvas",
+      "type": "Operation",
+      "name": "ImportCanvas",
+      "description": "Imports canvas data from a JSON file",
+      "from": "sro:ModernizationCanvas",
+      "to": "sro:ModernizationCanvas",
+      "precondition": [
+        "JSON file must be valid format",
+        "JSON structure must match schema",
+        "User confirms import (replaces current data)"
+      ],
+      "postcondition": [
+        "Canvas is cleared",
+        "All nodes from import are created",
+        "All edges from import are created",
+        "Statistics are recalculated",
+        "CanvasImported event is emitted"
+      ]
+    },
+    {
+      "id": "sro:RepositionNode",
+      "type": "Operation",
+      "name": "RepositionNode",
+      "description": "Changes the position of a node on the canvas via drag-and-drop",
+      "from": "sro:SystemNode",
+      "to": "sro:SystemNode",
+      "precondition": [
+        "SystemNode must exist",
+        "New position must be valid coordinates"
+      ],
+      "postcondition": [
+        "SystemNode position is updated",
+        "Connected integrations are redrawn",
+        "Visual representation reflects new position"
+      ]
+    },
+    {
+      "id": "sro:SelectNode",
+      "type": "Operation",
+      "name": "SelectNode",
+      "description": "Selects a node and displays its detail panel",
+      "from": "sro:SystemNode",
+      "to": "sro:SystemNode",
+      "precondition": [
+        "SystemNode must exist",
+        "User clicks on node"
+      ],
+      "postcondition": [
+        "Node displays blue border highlight",
+        "Detail panel opens from right side",
+        "Detail panel shows all node information",
+        "Other nodes are deselected"
+      ]
+    },
+    {
+      "id": "sro:SelectIntegration",
+      "type": "Operation",
+      "name": "SelectIntegration",
+      "description": "Selects an integration and displays its detail panel",
+      "from": "sro:Integration",
+      "to": "sro:Integration",
+      "precondition": [
+        "Integration must exist",
+        "User clicks on integration edge"
+      ],
+      "postcondition": [
+        "Integration is highlighted",
+        "Detail panel opens from right side",
+        "Detail panel shows all integration information",
+        "Other selections are cleared"
+      ]
+    },
+    {
+      "id": "sro:LegacyState",
+      "type": "State",
+      "name": "LegacyState",
+      "description": "System requires modernization (Red color)"
+    },
+    {
+      "id": "sro:InProgressState",
+      "type": "State",
+      "name": "InProgressState",
+      "description": "System is currently being modernized (Yellow/Orange color)"
+    },
+    {
+      "id": "sro:ModernizedState",
+      "type": "State",
+      "name": "ModernizedState",
+      "description": "System has been successfully modernized (Green color)"
+    },
+    {
+      "id": "sro:DeprecatedState",
+      "type": "State",
+      "name": "DeprecatedState",
+      "description": "System is marked for decommissioning (Gray color)"
+    },
+    {
+      "id": "sro:IntegrationNotStarted",
+      "type": "State",
+      "name": "IntegrationNotStarted",
+      "description": "Integration is planned but not yet started (Gray, dashed)"
+    },
+    {
+      "id": "sro:IntegrationInProgress",
+      "type": "State",
+      "name": "IntegrationInProgress",
+      "description": "Integration is being developed (Orange)"
+    },
+    {
+      "id": "sro:IntegrationCompleted",
+      "type": "State",
+      "name": "IntegrationCompleted",
+      "description": "Integration is active and working (Green)"
+    },
+    {
+      "id": "sro:IntegrationBlocked",
+      "type": "State",
+      "name": "IntegrationBlocked",
+      "description": "Integration has issues preventing progress (Red)"
+    }
+  ]
+}
