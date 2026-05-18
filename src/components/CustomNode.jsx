@@ -1,6 +1,6 @@
 import { memo } from 'react';
 import { Handle, Position } from 'reactflow';
-import { NODE_STATUS_COLORS, CRITICALITY_COLORS } from '../schema';
+import { MODERNIZATION_TARGET_COLORS, NODE_STATUS_COLORS, CRITICALITY_COLORS } from '../schema';
 
 /**
  * CustomNode Component
@@ -9,6 +9,7 @@ import { NODE_STATUS_COLORS, CRITICALITY_COLORS } from '../schema';
  */
 const CustomNode = ({ data, selected }) => {
   const statusColor = NODE_STATUS_COLORS[data.status] || '#6b7280';
+  const targetColor = MODERNIZATION_TARGET_COLORS[data.modernizationTarget] || '#6b7280';
   const criticalityColor = CRITICALITY_COLORS[data.details?.criticality] || '#f59e0b';
 
   return (
@@ -59,7 +60,7 @@ const CustomNode = ({ data, selected }) => {
         {data.label}
       </div>
 
-      {/* Status Badge */}
+      {/* Modernization Target Badge */}
       <div
         style={{
           display: 'inline-block',
@@ -67,12 +68,12 @@ const CustomNode = ({ data, selected }) => {
           borderRadius: '6px',
           fontSize: '12px',
           fontWeight: '500',
-          backgroundColor: statusColor,
+          backgroundColor: targetColor,
           color: 'white',
           marginBottom: '8px'
         }}
       >
-        {data.status}
+        {data.modernizationTarget}
       </div>
 
       {/* Technology Stack */}

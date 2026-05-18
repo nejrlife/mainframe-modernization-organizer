@@ -68,6 +68,14 @@ export const MODERNIZATION_TARGET = {
   DECOM: 'Decom'
 };
 
+// Modernization Target Colors
+export const MODERNIZATION_TARGET_COLORS = {
+  [MODERNIZATION_TARGET.DECOM]: '#ef4444', // Red
+  [MODERNIZATION_TARGET.UPGRADE]: '#3b82f6', // Blue
+  [MODERNIZATION_TARGET.KEEP]: '#f59e0b', // Orange
+  [MODERNIZATION_TARGET.NEW]: '#10b981' // Green
+};
+
 // Export array versions for dropdowns
 export const NODE_STATUSES = Object.values(NODE_STATUS);
 export const INTEGRATION_STATUSES = Object.values(INTEGRATION_STATUS);

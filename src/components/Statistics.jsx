@@ -35,20 +35,21 @@ const Statistics = ({ nodes, edges }) => {
 
     // Calculate progress percentages
     const totalNodes = nodes.length;
-    const modernizedNodes = nodesByStatus['Modernized'] || 0;
+    const completedNodes = nodesByStatus['Completed'] || 0;
     const inProgressNodes = nodesByStatus['In Progress'] || 0;
-    const legacyNodes = nodesByStatus['Legacy'] || 0;
+    const blockedNodes = nodesByStatus['Blocked'] || 0;
+    const notStartedNodes = nodesByStatus['Not Started'] || 0;
 
     const totalEdges = edges.length;
     const completedEdges = edgesByStatus['Completed'] || 0;
     const inProgressEdges = edgesByStatus['In Progress'] || 0;
 
-    const modernizationProgress = totalNodes > 0 
-      ? Math.round((modernizedNodes / totalNodes) * 100) 
+    const modernizationProgress = totalNodes > 0
+      ? Math.round((completedNodes / totalNodes) * 100)
       : 0;
 
-    const integrationProgress = totalEdges > 0 
-      ? Math.round((completedEdges / totalEdges) * 100) 
+    const integrationProgress = totalEdges > 0
+      ? Math.round((completedEdges / totalEdges) * 100)
       : 0;
 
     return {
@@ -58,9 +59,10 @@ const Statistics = ({ nodes, edges }) => {
       nodesByCriticality,
       edgesByStatus,
       edgesByType,
-      modernizedNodes,
+      completedNodes,
       inProgressNodes,
-      legacyNodes,
+      blockedNodes,
+      notStartedNodes,
       completedEdges,
       inProgressEdges,
       modernizationProgress,
@@ -141,7 +143,7 @@ const Statistics = ({ nodes, edges }) => {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
           <StatItem
             label="Completed"
-            value={stats.modernizedNodes}
+            value={stats.completedNodes}
             color="#10b981"
           />
           <StatItem
@@ -151,12 +153,12 @@ const Statistics = ({ nodes, edges }) => {
           />
           <StatItem
             label="Blocked"
-            value={stats.legacyNodes}
+            value={stats.blockedNodes}
             color="#ef4444"
           />
           <StatItem
             label="Not Started"
-            value={stats.nodesByStatus['Not Started'] || 0}
+            value={stats.notStartedNodes}
             color="#6b7280"
           />
         </div>
