@@ -231,7 +231,7 @@ export const initialNodes = [
     id: 'hellobackend',
     label: 'HelloBackend System',
     position: { x: 250, y: 100 },
-    status: NODE_STATUS.IN_PROGRESS,
+    status: NODE_STATUS.MODERNIZED,
     modernizationTarget: MODERNIZATION_TARGET.KEEP,
     poc: {
       name: 'Backend Team Lead',
@@ -282,10 +282,37 @@ export const initialNodes = [
   }),
 
   createNode({
+    id: 'aas',
+    label: 'Address Attainment Service (AAS)',
+    position: { x: 400, y: 100 },
+    status: NODE_STATUS.IN_PROGRESS,
+    modernizationTarget: MODERNIZATION_TARGET.UPGRADE,
+    poc: {
+      name: 'AAS Team Lead',
+      email: 'aas.team@company.com',
+      phone: '+1-555-0170',
+      department: 'Service Operations'
+    },
+    details: {
+      description: 'Address validation and attainment service for customer data',
+      technology: 'Java, Spring Boot',
+      criticality: CRITICALITY.HIGH,
+      users: 8000,
+      lastUpdated: '2024-01-22',
+      migrationTarget: 'Modernized microservice with enhanced APIs',
+      estimatedCost: '$350K',
+      timeline: 'Q2-Q4 2024',
+      dependencies: ['HelloBackend', 'DataStorage'],
+      risks: ['Data quality', 'API compatibility'],
+      notes: 'Critical service for address validation being upgraded to modern architecture.'
+    }
+  }),
+
+  createNode({
     id: 'mftawrapit',
     label: 'MFTAWrapIt',
-    position: { x: 450, y: 100 },
-    status: NODE_STATUS.LEGACY,
+    position: { x: 550, y: 100 },
+    status: NODE_STATUS.IN_PROGRESS,
     modernizationTarget: MODERNIZATION_TARGET.DECOM,
     poc: {
       name: 'Messaging Team',
@@ -312,7 +339,7 @@ export const initialNodes = [
     id: 'mfta',
     label: 'MFTA (MainFrame Transformation Application)',
     position: { x: 700, y: 100 },
-    status: NODE_STATUS.LEGACY,
+    status: NODE_STATUS.COMPLETED,
     modernizationTarget: MODERNIZATION_TARGET.DECOM,
     poc: {
       name: 'MFTA Architecture Team',
@@ -339,7 +366,7 @@ export const initialNodes = [
     id: 'inventory-check',
     label: 'Inventory Check Service',
     position: { x: 400, y: 300 },
-    status: NODE_STATUS.IN_PROGRESS,
+    status: NODE_STATUS.COMPLETED,
     modernizationTarget: MODERNIZATION_TARGET.DECOM,
     poc: {
       name: 'Network Services Team',
@@ -366,7 +393,7 @@ export const initialNodes = [
     id: 'mainframe',
     label: 'Mainframe Systems',
     position: { x: 1000, y: 200 },
-    status: NODE_STATUS.LEGACY,
+    status: NODE_STATUS.COMPLETED,
     modernizationTarget: MODERNIZATION_TARGET.DECOM,
     poc: {
       name: 'Mainframe Operations',
@@ -411,8 +438,8 @@ export const initialEdges = [
     id: 'e-hellobackend-datastorage',
     source: 'hellobackend',
     target: 'datastorage',
-    integrationType: INTEGRATION_TYPES.DATABASE,
-    status: INTEGRATION_STATUS.COMPLETED,
+    integrationType: INTEGRATION_TYPES.REST,
+    status: INTEGRATION_STATUS.IN_PROGRESS,
     direction: DIRECTION.BIDIRECTIONAL,
     criticality: CRITICALITY.HIGH,
     protocol: 'SQL/TCP',
@@ -422,10 +449,24 @@ export const initialEdges = [
   }),
 
   createEdge({
+    id: 'e-hellobackend-aas',
+    source: 'hellobackend',
+    target: 'aas',
+    integrationType: INTEGRATION_TYPES.REST,
+    status: INTEGRATION_STATUS.IN_PROGRESS,
+    direction: DIRECTION.BIDIRECTIONAL,
+    criticality: CRITICALITY.HIGH,
+    protocol: 'REST API',
+    dataFormat: 'JSON',
+    frequency: 'Real-time',
+    notes: 'Backend to AAS service for address validation'
+  }),
+
+  createEdge({
     id: 'e-hellobackend-mftawrapit',
     source: 'hellobackend',
     target: 'mftawrapit',
-    integrationType: INTEGRATION_TYPES.MESSAGE_QUEUE,
+    integrationType: INTEGRATION_TYPES.REST,
     status: INTEGRATION_STATUS.IN_PROGRESS,
     direction: DIRECTION.BIDIRECTIONAL,
     criticality: CRITICALITY.HIGH,
@@ -439,7 +480,7 @@ export const initialEdges = [
     id: 'e-mftawrapit-mfta',
     source: 'mftawrapit',
     target: 'mfta',
-    integrationType: INTEGRATION_TYPES.MESSAGE_QUEUE,
+    integrationType: INTEGRATION_TYPES.SOAP,
     status: INTEGRATION_STATUS.COMPLETED,
     direction: DIRECTION.BIDIRECTIONAL,
     criticality: CRITICALITY.HIGH,
@@ -453,8 +494,8 @@ export const initialEdges = [
     id: 'e-mfta-inventory',
     source: 'mfta',
     target: 'inventory-check',
-    integrationType: INTEGRATION_TYPES.REST,
-    status: INTEGRATION_STATUS.IN_PROGRESS,
+    integrationType: INTEGRATION_TYPES.DIRECT,
+    status: INTEGRATION_STATUS.COMPLETED,
     direction: DIRECTION.UNIDIRECTIONAL,
     criticality: CRITICALITY.MEDIUM,
     protocol: 'REST/SOAP',

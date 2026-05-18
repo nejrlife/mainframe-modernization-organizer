@@ -31,7 +31,7 @@ const NodeDetailPanel = ({
         });
       } else {
         setFormData({
-          type: selectedElement.data?.type || 'API',
+          integrationType: selectedElement.data?.integrationType || 'REST',
           status: selectedElement.data?.status || 'Not Started',
           description: selectedElement.data?.description || '',
           frequency: selectedElement.data?.frequency || '',
@@ -75,7 +75,7 @@ const NodeDetailPanel = ({
         ...selectedElement,
         data: {
           ...selectedElement.data,
-          type: formData.type,
+          integrationType: formData.integrationType,
           status: formData.status,
           description: formData.description,
           frequency: formData.frequency,
@@ -336,8 +336,8 @@ const NodeDetailPanel = ({
                 Integration Type *
               </label>
               <select
-                value={formData.type}
-                onChange={(e) => handleChange('type', e.target.value)}
+                value={formData.integrationType}
+                onChange={(e) => handleChange('integrationType', e.target.value)}
                 required
                 style={{
                   width: '100%',
