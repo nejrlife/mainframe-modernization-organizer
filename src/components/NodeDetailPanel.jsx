@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { NODE_STATUSES, INTEGRATION_TYPES_ARRAY, INTEGRATION_STATUSES, CRITICALITY_LEVELS } from '../schema';
+import { NODE_STATUSES, INTEGRATION_TYPES_ARRAY, INTEGRATION_STATUSES, CRITICALITY_LEVELS, MODERNIZATION_TARGETS } from '../schema';
 
 /**
  * NodeDetailPanel Component
@@ -21,6 +21,7 @@ const NodeDetailPanel = ({
         setFormData({
           label: selectedElement.data.label || '',
           status: selectedElement.data.status || 'Legacy',
+          modernizationTarget: selectedElement.data.modernizationTarget || 'Retain',
           technology: selectedElement.data.details?.technology || '',
           criticality: selectedElement.data.details?.criticality || 'Medium',
           description: selectedElement.data.details?.description || '',
@@ -54,6 +55,7 @@ const NodeDetailPanel = ({
           ...selectedElement.data,
           label: formData.label,
           status: formData.status,
+          modernizationTarget: formData.modernizationTarget,
           details: {
             ...selectedElement.data.details,
             technology: formData.technology,
@@ -175,6 +177,28 @@ const NodeDetailPanel = ({
               >
                 {NODE_STATUSES.map(status => (
                   <option key={status} value={status}>{status}</option>
+                ))}
+              </select>
+            </div>
+
+            <div style={{ marginBottom: '16px' }}>
+              <label style={{ display: 'block', marginBottom: '6px', fontSize: '14px', fontWeight: '500' }}>
+                Modernization Target *
+              </label>
+              <select
+                value={formData.modernizationTarget}
+                onChange={(e) => handleChange('modernizationTarget', e.target.value)}
+                required
+                style={{
+                  width: '100%',
+                  padding: '8px 12px',
+                  border: '1px solid #d1d5db',
+                  borderRadius: '6px',
+                  fontSize: '14px'
+                }}
+              >
+                {MODERNIZATION_TARGETS.map(target => (
+                  <option key={target} value={target}>{target}</option>
                 ))}
               </select>
             </div>

@@ -60,11 +60,20 @@ export const CRITICALITY = {
   LOW: 'Low'
 };
 
+// Modernization Target Types
+export const MODERNIZATION_TARGET = {
+  UPGRADE: 'Upgrade',
+  KEEP: 'Keep',
+  NEW: 'New',
+  DECOM: 'Decom'
+};
+
 // Export array versions for dropdowns
 export const NODE_STATUSES = Object.values(NODE_STATUS);
 export const INTEGRATION_STATUSES = Object.values(INTEGRATION_STATUS);
 export const INTEGRATION_TYPES_ARRAY = Object.values(INTEGRATION_TYPES);
 export const CRITICALITY_LEVELS = Object.values(CRITICALITY);
+export const MODERNIZATION_TARGETS = Object.values(MODERNIZATION_TARGET);
 
 // Criticality Colors
 export const CRITICALITY_COLORS = {
@@ -94,6 +103,7 @@ export const createNode = (overrides = {}) => {
     data: {
       label: overrides.label || 'New System',
       status: overrides.status || NODE_STATUS.LEGACY,
+      modernizationTarget: overrides.modernizationTarget || MODERNIZATION_TARGET.KEEP,
       poc: {
         name: overrides.poc?.name || '',
         email: overrides.poc?.email || '',
@@ -186,7 +196,8 @@ export const initialNodes = [
     id: 'hellofrontend',
     label: 'HelloFrontend System',
     position: { x: 100, y: 100 },
-    status: NODE_STATUS.IN_PROGRESS,
+    status: NODE_STATUS.MODERNIZED,
+    modernizationTarget: MODERNIZATION_TARGET.KEEP,
     poc: {
       name: 'HF Team Lead',
       email: 'hf.team@company.com',
@@ -209,10 +220,38 @@ export const initialNodes = [
   }),
 
   createNode({
+    id: 'hellobackend',
+    label: 'HelloBackend System',
+    position: { x: 250, y: 100 },
+    status: NODE_STATUS.IN_PROGRESS,
+    modernizationTarget: MODERNIZATION_TARGET.KEEP,
+    poc: {
+      name: 'Backend Team Lead',
+      email: 'backend.team@company.com',
+      phone: '+1-555-0150',
+      department: 'Application Development'
+    },
+    details: {
+      description: 'Backend API layer for HelloFrontend system',
+      technology: 'Node.js, Express',
+      criticality: CRITICALITY.HIGH,
+      users: 10000,
+      lastUpdated: '2024-01-20',
+      migrationTarget: 'Microservices architecture',
+      estimatedCost: '$300K',
+      timeline: 'Q2-Q3 2024',
+      dependencies: ['HelloFrontend', 'MFTAWrapIt'],
+      risks: ['API performance', 'Data consistency'],
+      notes: 'Backend service layer being modernized to support frontend operations.'
+    }
+  }),
+
+  createNode({
     id: 'mftawrapit',
     label: 'MFTAWrapIt',
-    position: { x: 400, y: 100 },
+    position: { x: 450, y: 100 },
     status: NODE_STATUS.LEGACY,
+    modernizationTarget: MODERNIZATION_TARGET.DECOM,
     poc: {
       name: 'Messaging Team',
       email: 'messaging@company.com',
@@ -239,6 +278,7 @@ export const initialNodes = [
     label: 'MFTA (MainFrame Transformation Application)',
     position: { x: 700, y: 100 },
     status: NODE_STATUS.LEGACY,
+    modernizationTarget: MODERNIZATION_TARGET.DECOM,
     poc: {
       name: 'MFTA Architecture Team',
       email: 'mfta.team@company.com',
@@ -265,6 +305,7 @@ export const initialNodes = [
     label: 'Inventory Check Service',
     position: { x: 400, y: 300 },
     status: NODE_STATUS.IN_PROGRESS,
+    modernizationTarget: MODERNIZATION_TARGET.DECOM,
     poc: {
       name: 'Network Services Team',
       email: 'network.services@company.com',
@@ -291,6 +332,7 @@ export const initialNodes = [
     label: 'Mainframe Systems',
     position: { x: 1000, y: 200 },
     status: NODE_STATUS.LEGACY,
+    modernizationTarget: MODERNIZATION_TARGET.DECOM,
     poc: {
       name: 'Mainframe Operations',
       email: 'mainframe@company.com',
@@ -317,17 +359,31 @@ export const initialNodes = [
 // Sample edges representing integrations
 export const initialEdges = [
   createEdge({
-    id: 'e-hellofrontend-mftawrapit',
+    id: 'e-hellofrontend-hellobackend',
     source: 'hellofrontend',
+    target: 'hellobackend',
+    integrationType: INTEGRATION_TYPES.REST,
+    status: INTEGRATION_STATUS.COMPLETED,
+    direction: DIRECTION.BIDIRECTIONAL,
+    criticality: CRITICALITY.HIGH,
+    protocol: 'REST API',
+    dataFormat: 'JSON',
+    frequency: 'Real-time',
+    notes: 'Frontend to backend API communication'
+  }),
+
+  createEdge({
+    id: 'e-hellobackend-mftawrapit',
+    source: 'hellobackend',
     target: 'mftawrapit',
     integrationType: INTEGRATION_TYPES.MESSAGE_QUEUE,
-    status: INTEGRATION_STATUS.COMPLETED,
+    status: INTEGRATION_STATUS.IN_PROGRESS,
     direction: DIRECTION.BIDIRECTIONAL,
     criticality: CRITICALITY.HIGH,
     protocol: 'TIBCO RV',
     dataFormat: 'XML',
     frequency: 'Real-time',
-    notes: 'Critical messaging integration for IVR operations'
+    notes: 'Backend messaging integration with MFTAWrapIt'
   }),
 
   createEdge({
