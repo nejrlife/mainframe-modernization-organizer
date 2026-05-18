@@ -1,22 +1,12 @@
-import React from 'react';
+import { memo } from 'react';
 import { BaseEdge, EdgeLabelRenderer, getBezierPath } from 'reactflow';
+import { INTEGRATION_STATUS_COLORS } from '../schema';
 
-const integrationTypeIcons = {
-  api: '🔌',
-  'file-transfer': '📁',
-  database: '🗄️',
-  'message-queue': '📨',
-  batch: '⏱️',
-  direct: '↔️'
-};
-
-const statusColors = {
-  'not-started': '#9ca3af',
-  'in-progress': '#f59e0b',
-  completed: '#10b981',
-  blocked: '#ef4444'
-};
-
+/**
+ * CustomEdge Component
+ * Displays integration connections between systems
+ * Requirements: FR-2.2.1, FR-2.2.2, FR-2.2.3
+ */
 const CustomEdge = ({
   id,
   sourceX,
@@ -38,9 +28,8 @@ const CustomEdge = ({
     targetPosition,
   });
 
-  const statusColor = statusColors[data?.status] || '#9ca3af';
-  const isDashed = data?.status === 'not-started';
-  const icon = integrationTypeIcons[data?.integrationType] || '🔌';
+  const statusColor = INTEGRATION_STATUS_COLORS[data?.status] || '#6b7280';
+  const strokeWidth = selected ? 3 : 2;
 
   return (
     <>
@@ -49,66 +38,43 @@ const CustomEdge = ({
         path={edgePath}
         markerEnd={markerEnd}
         style={{
-          stroke: selected ? '#3b82f6' : statusColor,
-          strokeWidth: selected ? 3 : 2,
-          strokeDasharray: isDashed ? '5,5' : 'none'
+          stroke: statusColor,
+          strokeWidth: strokeWidth,
+          strokeDasharray: data?.type === 'Batch' ? '5,5' : 'none',
+          transition: 'all 0.2s ease'
         }}
       />
+      
+      {/* Edge Label */}
       <EdgeLabelRenderer>
         <div
           style={{
             position: 'absolute',
             transform: `translate(-50%, -50%) translate(${labelX}px,${labelY}px)`,
             pointerEvents: 'all',
-            backgroundColor: 'white',
-            padding: '6px 10px',
-            borderRadius: '6px',
-            border: `2px solid ${statusColor}`,
             fontSize: '11px',
-            fontWeight: '500',
-            boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
-            cursor: 'pointer',
-            transition: 'transform 0.2s',
+            fontWeight: '500'
           }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.transform = `translate(-50%, -50%) translate(${labelX}px,${labelY}px) scale(1.1)`;
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.transform = `translate(-50%, -50%) translate(${labelX}px,${labelY}px) scale(1)`;
-          }}
+          className="nodrag nopan"
         >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-            <span>{icon}</span>
-            <span style={{ textTransform: 'capitalize' }}>
-              {data?.integrationType?.replace('-', ' ') || 'Integration'}
-            </span>
+          <div
+            style={{
+              background: 'white',
+              padding: '4px 8px',
+              borderRadius: '6px',
+              border: `2px solid ${statusColor}`,
+              boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+              whiteSpace: 'nowrap'
+            }}
+          >
+            {data?.type || 'Integration'}
           </div>
-          {data?.protocol && (
-            <div style={{ fontSize: '9px', color: '#6b7280', marginTop: '2px' }}>
-              {data.protocol}
-            </div>
-          )}
-          {data?.criticality && (
-            <div
-              style={{
-                fontSize: '9px',
-                color: 'white',
-                backgroundColor: data.criticality === 'high' ? '#ef4444' : data.criticality === 'medium' ? '#f59e0b' : '#10b981',
-                padding: '1px 4px',
-                borderRadius: '3px',
-                marginTop: '2px',
-                textAlign: 'center'
-              }}
-            >
-              {data.criticality.toUpperCase()}
-            </div>
-          )}
         </div>
       </EdgeLabelRenderer>
     </>
   );
 };
 
-export default CustomEdge;
+export default memo(CustomEdge);
 
 // Made with Bob
