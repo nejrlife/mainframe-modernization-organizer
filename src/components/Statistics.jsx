@@ -162,39 +162,6 @@ const Statistics = ({ nodes, edges }) => {
         </div>
       </div>
 
-      {/* Criticality Breakdown */}
-      <div style={{ 
-        marginBottom: '16px',
-        paddingBottom: '16px',
-        borderBottom: '1px solid #e5e7eb'
-      }}>
-        <div style={{ 
-          fontSize: '14px', 
-          fontWeight: '600', 
-          marginBottom: '10px',
-          color: '#374151'
-        }}>
-          By Criticality
-        </div>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-          <StatItem 
-            label="High" 
-            value={stats.nodesByCriticality['High'] || 0} 
-            color="#ef4444" 
-          />
-          <StatItem 
-            label="Medium" 
-            value={stats.nodesByCriticality['Medium'] || 0} 
-            color="#f59e0b" 
-          />
-          <StatItem 
-            label="Low" 
-            value={stats.nodesByCriticality['Low'] || 0} 
-            color="#10b981" 
-          />
-        </div>
-      </div>
-
       {/* Integrations Summary */}
       <div style={{ marginBottom: '0' }}>
         <div style={{ 

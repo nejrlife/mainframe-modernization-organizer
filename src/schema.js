@@ -115,12 +115,24 @@ export const createNode = (overrides = {}) => {
 
 /**
  * Creates a new edge (integration) with default values
- * @param {string} source - Source node ID
- * @param {string} target - Target node ID
- * @param {Object} overrides - Properties to override defaults
+ * @param {Object} params - Edge parameters (can be called with source, target, overrides OR single object)
  * @returns {Object} Edge object
  */
-export const createEdge = (source, target, overrides = {}) => {
+export const createEdge = (...args) => {
+  let source, target, overrides = {};
+  
+  // Support both signatures: createEdge(source, target, overrides) and createEdge({...})
+  if (args.length === 1 && typeof args[0] === 'object') {
+    // Single object parameter
+    const params = args[0];
+    source = params.source;
+    target = params.target;
+    overrides = params;
+  } else {
+    // Legacy signature: source, target, overrides
+    [source, target, overrides = {}] = args;
+  }
+  
   const id = overrides.id || `edge-${source}-${target}-${Date.now()}`;
   
   return {
@@ -168,96 +180,198 @@ export const validateEdge = (edge) => {
   return true;
 };
 
-// Sample initial data for demonstration
+// Sample nodes representing your current systems
 export const initialNodes = [
   createNode({
-    id: 'node-1',
+    id: 'hellofrontend',
+    label: 'HelloFrontend System',
     position: { x: 100, y: 100 },
-    label: 'Legacy Mainframe',
-    status: NODE_STATUS.LEGACY,
-    poc: {
-      name: 'John Smith',
-      email: 'john.smith@company.com',
-      phone: '+1-555-0100',
-      department: 'IT Operations'
-    },
-    details: {
-      description: 'Core banking system running on IBM z/OS',
-      technology: 'COBOL, DB2, CICS',
-      criticality: CRITICALITY.HIGH,
-      users: '5000+',
-      migrationTarget: 'Cloud Native (Java/Spring Boot)',
-      timeline: 'Q2 2026 - Q4 2027',
-      notes: 'Critical system requiring careful migration planning'
-    }
-  }),
-  createNode({
-    id: 'node-2',
-    position: { x: 400, y: 100 },
-    label: 'Customer Portal',
     status: NODE_STATUS.IN_PROGRESS,
     poc: {
-      name: 'Sarah Johnson',
-      email: 'sarah.johnson@company.com',
-      phone: '+1-555-0101',
-      department: 'Digital Banking'
+      name: 'HF Team Lead',
+      email: 'hf.team@company.com',
+      phone: '+1-555-0100',
+      department: 'Customer Service'
     },
     details: {
-      description: 'Web-based customer portal',
-      technology: 'React, Node.js, PostgreSQL',
+      description: 'Interactive UI system for customer service automation',
+      technology: 'ReactJS',
       criticality: CRITICALITY.HIGH,
-      users: '10000+',
-      migrationTarget: 'Microservices Architecture',
-      timeline: 'Q1 2026 - Q3 2026',
-      notes: 'Migration 60% complete'
+      users: 10000,
+      lastUpdated: '2024-01-15',
+      migrationTarget: 'Cloud-native microservices',
+      estimatedCost: '$500K',
+      timeline: 'Q2-Q4 2024',
+      dependencies: ['MFTAWrapIt', 'MFTA'],
+      risks: ['Legacy TIBCO integration', 'High availability requirements'],
+      notes: 'Critical customer-facing system. Requires 99.9% uptime.'
     }
   }),
+
   createNode({
-    id: 'node-3',
-    position: { x: 700, y: 100 },
-    label: 'Mobile App Backend',
-    status: NODE_STATUS.MODERNIZED,
+    id: 'mftawrapit',
+    label: 'MFTAWrapIt',
+    position: { x: 400, y: 100 },
+    status: NODE_STATUS.LEGACY,
     poc: {
-      name: 'Mike Chen',
-      email: 'mike.chen@company.com',
-      phone: '+1-555-0102',
-      department: 'Mobile Development'
+      name: 'Messaging Team',
+      email: 'messaging@company.com',
+      phone: '+1-555-0200',
+      department: 'Infrastructure'
     },
     details: {
-      description: 'RESTful API for mobile applications',
-      technology: 'Java Spring Boot, MongoDB, Kubernetes',
-      criticality: CRITICALITY.MEDIUM,
-      users: '15000+',
-      migrationTarget: 'Already Modernized',
-      timeline: 'Completed Q4 2025',
-      notes: 'Successfully migrated to cloud-native architecture'
+      description: 'Enterprise messaging middleware for real-time data distribution',
+      technology: 'Spring Boot Java',
+      criticality: CRITICALITY.HIGH,
+      users: 50,
+      lastUpdated: '2023-12-01',
+      migrationTarget: 'Apache Kafka / RabbitMQ',
+      estimatedCost: '$750K',
+      timeline: 'Q3 2024 - Q1 2025',
+      dependencies: ['Multiple legacy systems'],
+      risks: ['Complex message routing', 'Performance requirements', 'Multiple dependent systems'],
+      notes: 'Core messaging infrastructure. Migration requires careful planning.'
     }
-  })
+  }),
+
+  createNode({
+    id: 'mfta',
+    label: 'MFTA (MainFrame Transformation Application)',
+    position: { x: 700, y: 100 },
+    status: NODE_STATUS.LEGACY,
+    poc: {
+      name: 'MFTA Architecture Team',
+      email: 'mfta.team@company.com',
+      phone: '+1-555-0300',
+      department: 'Enterprise Architecture'
+    },
+    details: {
+      description: 'Service orchestration layer for network operations',
+      technology: 'Java, WebLogic, Tuxedo',
+      criticality: CRITICALITY.HIGH,
+      users: 200,
+      lastUpdated: '2023-11-20',
+      migrationTarget: 'Spring Boot microservices on Kubernetes',
+      estimatedCost: '$1.2M',
+      timeline: 'Q1 2025 - Q4 2025',
+      dependencies: ['MFTAWrapIt', 'Mainframe systems', 'Network databases'],
+      risks: ['Complex business logic', 'Multiple integrations', 'Data migration'],
+      notes: 'Large monolithic application. Requires phased migration approach.'
+    }
+  }),
+
+  createNode({
+    id: 'inventory-check',
+    label: 'Inventory Check Service',
+    position: { x: 400, y: 300 },
+    status: NODE_STATUS.IN_PROGRESS,
+    poc: {
+      name: 'Network Services Team',
+      email: 'network.services@company.com',
+      phone: '+1-555-0400',
+      department: 'Network Operations'
+    },
+    details: {
+      description: 'Service for checking network inventory availability',
+      technology: 'Java, REST API',
+      criticality: CRITICALITY.MEDIUM,
+      users: 150,
+      lastUpdated: '2024-01-10',
+      migrationTarget: 'Containerized microservice',
+      estimatedCost: '$200K',
+      timeline: 'Q2 2024',
+      dependencies: ['MFTA', 'Network databases'],
+      risks: ['Database performance', 'API versioning'],
+      notes: 'Modernization in progress. API redesign completed.'
+    }
+  }),
+
+  createNode({
+    id: 'mainframe',
+    label: 'Mainframe Systems',
+    position: { x: 1000, y: 200 },
+    status: NODE_STATUS.LEGACY,
+    poc: {
+      name: 'Mainframe Operations',
+      email: 'mainframe@company.com',
+      phone: '+1-555-0500',
+      department: 'Legacy Systems'
+    },
+    details: {
+      description: 'Core business logic and data storage',
+      technology: 'COBOL, DB2, CICS',
+      criticality: CRITICALITY.HIGH,
+      users: 500,
+      lastUpdated: '2023-10-15',
+      migrationTarget: 'Hybrid cloud with data modernization',
+      estimatedCost: '$3M+',
+      timeline: '2025-2027',
+      dependencies: ['Multiple systems'],
+      risks: ['Business continuity', 'Data migration complexity', 'Skills shortage'],
+      notes: 'Long-term modernization initiative. Requires extensive planning.'
+    }
+  }),
+
 ];
 
+// Sample edges representing integrations
 export const initialEdges = [
-  createEdge('node-1', 'node-2', {
-    id: 'edge-1',
-    integrationType: INTEGRATION_TYPES.API,
-    status: INTEGRATION_STATUS.IN_PROGRESS,
+  createEdge({
+    id: 'e-hellofrontend-mftawrapit',
+    source: 'hellofrontend',
+    target: 'mftawrapit',
+    integrationType: INTEGRATION_TYPES.MESSAGE_QUEUE,
+    status: INTEGRATION_STATUS.COMPLETED,
     direction: DIRECTION.BIDIRECTIONAL,
     criticality: CRITICALITY.HIGH,
-    protocol: 'REST API',
-    dataFormat: 'JSON',
+    protocol: 'TIBCO RV',
+    dataFormat: 'XML',
     frequency: 'Real-time',
-    notes: 'Account data synchronization'
+    notes: 'Critical messaging integration for IVR operations'
   }),
-  createEdge('node-2', 'node-3', {
-    id: 'edge-2',
-    integrationType: INTEGRATION_TYPES.API,
+
+  createEdge({
+    id: 'e-mftawrapit-mfta',
+    source: 'mftawrapit',
+    target: 'mfta',
+    integrationType: INTEGRATION_TYPES.MESSAGE_QUEUE,
     status: INTEGRATION_STATUS.COMPLETED,
+    direction: DIRECTION.BIDIRECTIONAL,
+    criticality: CRITICALITY.HIGH,
+    protocol: 'TIBCO RV',
+    dataFormat: 'XML',
+    frequency: 'Real-time',
+    notes: 'Core messaging between MFTAWrapIt and MFTA'
+  }),
+
+  createEdge({
+    id: 'e-mfta-inventory',
+    source: 'mfta',
+    target: 'inventory-check',
+    integrationType: INTEGRATION_TYPES.API,
+    status: INTEGRATION_STATUS.IN_PROGRESS,
     direction: DIRECTION.UNIDIRECTIONAL,
     criticality: CRITICALITY.MEDIUM,
-    protocol: 'GraphQL',
-    dataFormat: 'JSON',
+    protocol: 'REST/SOAP',
+    dataFormat: 'JSON/XML',
+    frequency: 'On-demand',
+    notes: 'Migrating from SOAP to REST API'
+  }),
+
+  createEdge({
+    id: 'e-mfta-mainframe',
+    source: 'mfta',
+    target: 'mainframe',
+    integrationType: INTEGRATION_TYPES.DIRECT,
+    status: INTEGRATION_STATUS.COMPLETED,
+    direction: DIRECTION.BIDIRECTIONAL,
+    criticality: CRITICALITY.HIGH,
+    protocol: 'Tuxedo/ATMI',
+    dataFormat: 'Proprietary',
     frequency: 'Real-time',
-    notes: 'Mobile API gateway'
-  })
+    notes: 'Legacy integration via Tuxedo middleware'
+  }),
+
 ];
 
 // Made with Bob

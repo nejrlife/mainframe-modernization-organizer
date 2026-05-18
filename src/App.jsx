@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 import ReactFlow, {
   MiniMap,
   Controls,
@@ -14,7 +14,6 @@ import CustomNode from './components/CustomNode';
 import CustomEdge from './components/CustomEdge';
 import NodeDetailPanel from './components/NodeDetailPanel';
 import Statistics from './components/Statistics';
-import Legend from './components/Legend';
 import { initialNodes, initialEdges, createNode, createEdge } from './schema';
 
 const nodeTypes = {
@@ -31,12 +30,21 @@ const edgeTypes = {
  * Interactive canvas for visualizing and managing modernization projects
  */
 function App() {
+  const [showSplash, setShowSplash] = useState(true);
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
   const [selectedElement, setSelectedElement] = useState(null);
   const [selectedElementType, setSelectedElementType] = useState(null);
   const reactFlowWrapper = useRef(null);
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
+
+  // Splash screen timer
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowSplash(false);
+    }, 2000);
+    return () => clearTimeout(timer);
+  }, []);
 
   // Handle connection creation (FR-2.2.4)
   const onConnect = useCallback(
@@ -126,190 +134,66 @@ function App() {
     setNodes((nds) => [...nds, newNode]);
   }, [nodes.length, setNodes]);
 
-  // Export data (FR-2.5.1)
-  const handleExport = useCallback(() => {
-    const data = {
-      nodes: nodes.map(node => ({
-        id: node.id,
-        position: node.position,
-        data: node.data
-      })),
-      edges: edges.map(edge => ({
-        id: edge.id,
-        source: edge.source,
-        target: edge.target,
-        data: edge.data
-      })),
-      exportDate: new Date().toISOString(),
-      version: '1.0'
-    };
 
-    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = `modernization-project-${Date.now()}.json`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
-  }, [nodes, edges]);
 
-  // Import data (FR-2.5.2)
-  const handleImport = useCallback((event) => {
-    const file = event.target.files[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      try {
-        const data = JSON.parse(e.target.result);
-        
-        // Validate and restore nodes
-        if (data.nodes && Array.isArray(data.nodes)) {
-          const restoredNodes = data.nodes.map(node => ({
-            ...node,
-            type: 'custom'
-          }));
-          setNodes(restoredNodes);
-        }
-
-        // Validate and restore edges
-        if (data.edges && Array.isArray(data.edges)) {
-          const restoredEdges = data.edges.map(edge => ({
-            ...edge,
-            type: 'custom',
-            markerEnd: {
-              type: MarkerType.ArrowClosed,
-              width: 20,
-              height: 20,
-            }
-          }));
-          setEdges(restoredEdges);
-        }
-
-        alert('Project imported successfully!');
-      } catch (error) {
-        alert('Error importing file: ' + error.message);
-      }
-    };
-    reader.readAsText(file);
-    event.target.value = ''; // Reset input
-  }, [setNodes, setEdges]);
-
-  // Clear canvas
-  const handleClear = useCallback(() => {
-    if (window.confirm('Are you sure you want to clear the entire canvas? This cannot be undone.')) {
-      setNodes([]);
-      setEdges([]);
-      setSelectedElement(null);
-      setSelectedElementType(null);
-    }
-  }, [setNodes, setEdges]);
-
-  return (
-    <div style={{ width: '100vw', height: '100vh', position: 'relative' }}>
-      {/* Header */}
+  // Show splash screen
+  if (showSplash) {
+    return (
       <div style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        height: '60px',
-        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)',
+        width: '100vw',
+        height: '100vh',
         display: 'flex',
+        flexDirection: 'column',
         alignItems: 'center',
-        justifyContent: 'space-between',
-        padding: '0 20px',
-        zIndex: 1001
+        justifyContent: 'center',
+        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+        color: 'white',
+        fontFamily: 'system-ui, -apple-system, sans-serif'
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <h1 style={{ 
-            margin: 0, 
-            fontSize: '20px', 
+        <div style={{
+          textAlign: 'center',
+          animation: 'fadeIn 1s ease-in'
+        }}>
+          <h1 style={{
+            fontSize: '48px',
             fontWeight: '700',
-            color: 'white'
+            margin: '0 0 24px 0',
+            letterSpacing: '-0.5px'
           }}>
             🏢 Mainframe Modernization Organizer
           </h1>
-        </div>
-
-        <div style={{ display: 'flex', gap: '10px' }}>
-          <button
-            onClick={handleAddNode}
-            style={{
-              padding: '8px 16px',
-              background: 'white',
-              color: '#667eea',
-              border: 'none',
-              borderRadius: '6px',
-              fontSize: '14px',
-              fontWeight: '600',
-              cursor: 'pointer',
-              boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
-            }}
-          >
-            ➕ Add System
-          </button>
-
-          <label style={{
-            padding: '8px 16px',
-            background: 'white',
-            color: '#667eea',
-            border: 'none',
-            borderRadius: '6px',
-            fontSize: '14px',
-            fontWeight: '600',
-            cursor: 'pointer',
-            boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
+          <p style={{
+            fontSize: '20px',
+            fontWeight: '400',
+            margin: '0',
+            opacity: '0.9',
+            maxWidth: '600px',
+            lineHeight: '1.6'
           }}>
-            📥 Import
-            <input
-              type="file"
-              accept=".json"
-              onChange={handleImport}
-              style={{ display: 'none' }}
-            />
-          </label>
-
-          <button
-            onClick={handleExport}
-            style={{
-              padding: '8px 16px',
-              background: 'white',
-              color: '#667eea',
-              border: 'none',
-              borderRadius: '6px',
-              fontSize: '14px',
-              fontWeight: '600',
-              cursor: 'pointer',
-              boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
-            }}
-          >
-            📤 Export
-          </button>
-
-          <button
-            onClick={handleClear}
-            style={{
-              padding: '8px 16px',
-              background: 'rgba(255, 255, 255, 0.2)',
-              color: 'white',
-              border: '1px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '6px',
-              fontSize: '14px',
-              fontWeight: '600',
-              cursor: 'pointer'
-            }}
-          >
-            🗑️ Clear
-          </button>
+            Track and manage the progress of your mainframe modernization journey.
+          </p>
         </div>
+        <style>{`
+          @keyframes fadeIn {
+            from {
+              opacity: 0;
+              transform: translateY(20px);
+            }
+            to {
+              opacity: 1;
+              transform: translateY(0);
+            }
+          }
+        `}</style>
       </div>
+    );
+  }
 
+  // Main application
+  return (
+    <div style={{ width: '100vw', height: '100vh', position: 'relative' }}>
       {/* ReactFlow Canvas */}
-      <div ref={reactFlowWrapper} style={{ width: '100%', height: '100%', paddingTop: '60px' }}>
+      <div ref={reactFlowWrapper} style={{ width: '100%', height: '100%' }}>
         <ReactFlow
           nodes={nodes}
           edges={edges}
@@ -340,15 +224,13 @@ function App() {
               return statusColors[node.data.status] || '#6b7280';
             }}
             maskColor="rgba(0, 0, 0, 0.1)"
+            position="bottom-center"
           />
         </ReactFlow>
       </div>
 
       {/* Statistics Panel */}
       <Statistics nodes={nodes} edges={edges} />
-
-      {/* Legend */}
-      <Legend />
 
       {/* Detail Panel */}
       {selectedElement && (
@@ -360,6 +242,41 @@ function App() {
           onClose={handleClosePanel}
         />
       )}
+
+      {/* Floating Action Button - Add System */}
+      <button
+        onClick={handleAddNode}
+        style={{
+          position: 'fixed',
+          bottom: '24px',
+          right: '24px',
+          width: '56px',
+          height: '56px',
+          borderRadius: '50%',
+          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+          border: 'none',
+          color: 'white',
+          fontSize: '24px',
+          cursor: 'pointer',
+          boxShadow: '0 4px 12px rgba(102, 126, 234, 0.4)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          transition: 'transform 0.3s, box-shadow 0.3s',
+          zIndex: 1002
+        }}
+        onMouseEnter={(e) => {
+          e.target.style.transform = 'scale(1.1)';
+          e.target.style.boxShadow = '0 6px 16px rgba(102, 126, 234, 0.5)';
+        }}
+        onMouseLeave={(e) => {
+          e.target.style.transform = 'scale(1)';
+          e.target.style.boxShadow = '0 4px 12px rgba(102, 126, 234, 0.4)';
+        }}
+        title="Add System"
+      >
+        ➕
+      </button>
     </div>
   );
 }
