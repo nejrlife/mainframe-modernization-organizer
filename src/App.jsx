@@ -14,7 +14,7 @@ import CustomNode from './components/CustomNode';
 import CustomEdge from './components/CustomEdge';
 import NodeDetailPanel from './components/NodeDetailPanel';
 import Statistics from './components/Statistics';
-import { initialNodes, initialEdges, createNode, createEdge } from './schema';
+import { initialNodes, initialEdges, createNode, createEdge, MODERNIZATION_TARGET } from './schema';
 
 const nodeTypes = {
   custom: CustomNode,
@@ -31,8 +31,31 @@ const edgeTypes = {
  */
 function App() {
   const [showSplash, setShowSplash] = useState(true);
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
-  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+  
+  // Load saved data from localStorage or use initial data
+  const getInitialNodes = () => {
+    const saved = localStorage.getItem('mainframe-modernization-nodes');
+    if (saved) {
+      const parsedNodes = JSON.parse(saved);
+      // Migrate old nodes to include modernizationTarget if missing
+      return parsedNodes.map(node => ({
+        ...node,
+        data: {
+          ...node.data,
+          modernizationTarget: node.data.modernizationTarget || MODERNIZATION_TARGET.KEEP
+        }
+      }));
+    }
+    return initialNodes;
+  };
+  
+  const getInitialEdges = () => {
+    const saved = localStorage.getItem('mainframe-modernization-edges');
+    return saved ? JSON.parse(saved) : initialEdges;
+  };
+  
+  const [nodes, setNodes, onNodesChange] = useNodesState(getInitialNodes());
+  const [edges, setEdges, onEdgesChange] = useEdgesState(getInitialEdges());
   const [selectedElement, setSelectedElement] = useState(null);
   const [selectedElementType, setSelectedElementType] = useState(null);
   const reactFlowWrapper = useRef(null);
@@ -42,9 +65,23 @@ function App() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowSplash(false);
-    }, 2000);
+    }, 4000);
     return () => clearTimeout(timer);
   }, []);
+
+  // Save nodes to localStorage whenever they change
+  useEffect(() => {
+    if (!showSplash) {
+      localStorage.setItem('mainframe-modernization-nodes', JSON.stringify(nodes));
+    }
+  }, [nodes, showSplash]);
+
+  // Save edges to localStorage whenever they change
+  useEffect(() => {
+    if (!showSplash) {
+      localStorage.setItem('mainframe-modernization-edges', JSON.stringify(edges));
+    }
+  }, [edges, showSplash]);
 
   // Handle connection creation (FR-2.2.4)
   const onConnect = useCallback(
