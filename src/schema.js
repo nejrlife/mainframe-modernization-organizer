@@ -122,6 +122,7 @@ export const createNode = (overrides = {}) => {
         description: overrides.details?.description || '',
         technology: overrides.details?.technology || '',
         criticality: overrides.details?.criticality || CRITICALITY.MEDIUM,
+        jiraFeature: overrides.details?.jiraFeature || '',
         users: overrides.details?.users || '',
         migrationTarget: overrides.details?.migrationTarget || '',
         timeline: overrides.details?.timeline || '',
@@ -167,6 +168,7 @@ export const createEdge = (...args) => {
       protocol: overrides.protocol || '',
       dataFormat: overrides.dataFormat || '',
       frequency: overrides.frequency || '',
+      jiraFeature: overrides.jiraFeature || '',
       notes: overrides.notes || ''
     }
   };
@@ -216,6 +218,7 @@ export const initialNodes = [
       description: 'Interactive UI system for customer service automation',
       technology: 'ReactJS',
       criticality: CRITICALITY.HIGH,
+      jiraFeature: 'PROJ-101',
       users: 10000,
       lastUpdated: '2024-01-15',
       migrationTarget: 'Cloud-native microservices',
@@ -243,6 +246,7 @@ export const initialNodes = [
       description: 'Backend API layer for HelloFrontend system',
       technology: 'Node.js, Express',
       criticality: CRITICALITY.HIGH,
+      jiraFeature: 'PROJ-102',
       users: 10000,
       lastUpdated: '2024-01-20',
       migrationTarget: 'Microservices architecture',
@@ -268,8 +272,9 @@ export const initialNodes = [
     },
     details: {
       description: 'Central data storage and management system',
-      technology: 'PostgreSQL, Redis',
+      technology: 'Microsoft Azure Functions',
       criticality: CRITICALITY.HIGH,
+      jiraFeature: 'PROJ-103',
       users: 5000,
       lastUpdated: '2024-01-25',
       migrationTarget: 'Cloud-native database services',
@@ -297,6 +302,7 @@ export const initialNodes = [
       description: 'Address validation and attainment service for customer data',
       technology: 'Java, Spring Boot',
       criticality: CRITICALITY.HIGH,
+      jiraFeature: 'PROJ-104',
       users: 8000,
       lastUpdated: '2024-01-22',
       migrationTarget: 'Modernized microservice with enhanced APIs',
@@ -322,8 +328,9 @@ export const initialNodes = [
     },
     details: {
       description: 'Enterprise messaging middleware for real-time data distribution',
-      technology: 'Spring Boot Java',
+      technology: 'C#',
       criticality: CRITICALITY.HIGH,
+      jiraFeature: 'PROJ-105',
       users: 50,
       lastUpdated: '2023-12-01',
       migrationTarget: 'Apache Kafka / RabbitMQ',
@@ -351,6 +358,7 @@ export const initialNodes = [
       description: 'Service orchestration layer for network operations',
       technology: 'Java, WebLogic, Tuxedo',
       criticality: CRITICALITY.HIGH,
+      jiraFeature: 'PROJ-106',
       users: 200,
       lastUpdated: '2023-11-20',
       migrationTarget: 'Spring Boot microservices on Kubernetes',
@@ -376,8 +384,9 @@ export const initialNodes = [
     },
     details: {
       description: 'Service for checking network inventory availability',
-      technology: 'Java, REST API',
+      technology: 'COBOL, DB2, CICS',
       criticality: CRITICALITY.MEDIUM,
+      jiraFeature: 'PROJ-107',
       users: 150,
       lastUpdated: '2024-01-10',
       migrationTarget: 'Containerized microservice',
@@ -391,7 +400,7 @@ export const initialNodes = [
 
   createNode({
     id: 'mainframe',
-    label: 'Mainframe Systems',
+    label: 'G-Systems Mainframe',
     position: { x: 1443.7931034482758, y: -1.186206896551667 },
     status: NODE_STATUS.MODERNIZED,
     modernizationTarget: MODERNIZATION_TARGET.DECOM,
@@ -405,6 +414,7 @@ export const initialNodes = [
       description: 'Core business logic and data storage',
       technology: 'COBOL, DB2, CICS',
       criticality: CRITICALITY.HIGH,
+      jiraFeature: 'PROJ-108',
       users: 500,
       lastUpdated: '2023-10-15',
       migrationTarget: 'Hybrid cloud with data modernization',
@@ -431,6 +441,7 @@ export const initialEdges = [
     protocol: 'REST API',
     dataFormat: 'JSON',
     frequency: 'Real-time',
+    jiraFeature: 'PROJ-201',
     notes: 'Frontend to backend API communication'
   }),
 
@@ -445,6 +456,7 @@ export const initialEdges = [
     protocol: 'SQL/TCP',
     dataFormat: 'JSON',
     frequency: 'Real-time',
+    jiraFeature: 'PROJ-202',
     notes: 'Backend to database connection for data persistence'
   }),
 
@@ -459,6 +471,7 @@ export const initialEdges = [
     protocol: 'REST API',
     dataFormat: 'JSON',
     frequency: 'Real-time',
+    jiraFeature: 'PROJ-203',
     notes: 'Backend to AAS service for address validation'
   }),
 
@@ -473,6 +486,7 @@ export const initialEdges = [
     protocol: 'TIBCO RV',
     dataFormat: 'XML',
     frequency: 'Real-time',
+    jiraFeature: 'PROJ-204',
     notes: 'Backend messaging integration with MFTAWrapIt'
   }),
 
@@ -487,6 +501,7 @@ export const initialEdges = [
     protocol: 'TIBCO RV',
     dataFormat: 'XML',
     frequency: 'Real-time',
+    jiraFeature: 'PROJ-205',
     notes: 'Core messaging between MFTAWrapIt and MFTA'
   }),
 
@@ -501,6 +516,7 @@ export const initialEdges = [
     protocol: 'REST/SOAP',
     dataFormat: 'JSON/XML',
     frequency: 'On-demand',
+    jiraFeature: 'PROJ-206',
     notes: 'Migrating from SOAP to REST API'
   }),
 
@@ -515,6 +531,7 @@ export const initialEdges = [
     protocol: 'Tuxedo/ATMI',
     dataFormat: 'Proprietary',
     frequency: 'Real-time',
+    jiraFeature: 'PROJ-207',
     notes: 'Legacy integration via Tuxedo middleware'
   }),
 ];

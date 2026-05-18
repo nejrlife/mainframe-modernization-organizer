@@ -120,7 +120,7 @@ function App() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowSplash(false);
-    }, 4000);
+    }, 2500);
     return () => clearTimeout(timer);
   }, []);
 

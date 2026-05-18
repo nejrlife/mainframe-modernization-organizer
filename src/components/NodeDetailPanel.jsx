@@ -25,6 +25,7 @@ const NodeDetailPanel = ({
           technology: selectedElement.data.details?.technology || '',
           criticality: selectedElement.data.details?.criticality || 'Medium',
           description: selectedElement.data.details?.description || '',
+          jiraFeature: selectedElement.data.details?.jiraFeature || '',
           pocName: selectedElement.data.poc?.name || '',
           pocEmail: selectedElement.data.poc?.email || '',
           pocRole: selectedElement.data.poc?.role || ''
@@ -34,8 +35,7 @@ const NodeDetailPanel = ({
           integrationType: selectedElement.data?.integrationType || 'REST',
           status: selectedElement.data?.status || 'Not Started',
           description: selectedElement.data?.description || '',
-          frequency: selectedElement.data?.frequency || '',
-          dataVolume: selectedElement.data?.dataVolume || ''
+          jiraFeature: selectedElement.data?.jiraFeature || ''
         });
       }
     }
@@ -60,7 +60,8 @@ const NodeDetailPanel = ({
             ...selectedElement.data.details,
             technology: formData.technology,
             criticality: formData.criticality,
-            description: formData.description
+            description: formData.description,
+            jiraFeature: formData.jiraFeature
           },
           poc: {
             name: formData.pocName,
@@ -78,8 +79,7 @@ const NodeDetailPanel = ({
           integrationType: formData.integrationType,
           status: formData.status,
           description: formData.description,
-          frequency: formData.frequency,
-          dataVolume: formData.dataVolume
+          jiraFeature: formData.jiraFeature
         }
       };
       onUpdate(updatedEdge);
@@ -263,9 +263,28 @@ const NodeDetailPanel = ({
               />
             </div>
 
-            <div style={{ 
-              borderTop: '1px solid #e5e7eb', 
-              paddingTop: '16px', 
+            <div style={{ marginBottom: '16px' }}>
+              <label style={{ display: 'block', marginBottom: '6px', fontSize: '14px', fontWeight: '500' }}>
+                JIRA Feature/Capability
+              </label>
+              <input
+                type="text"
+                value={formData.jiraFeature}
+                onChange={(e) => handleChange('jiraFeature', e.target.value)}
+                placeholder="e.g., PROJ-123"
+                style={{
+                  width: '100%',
+                  padding: '8px 12px',
+                  border: '1px solid #d1d5db',
+                  borderRadius: '6px',
+                  fontSize: '14px'
+                }}
+              />
+            </div>
+
+            <div style={{
+              borderTop: '1px solid #e5e7eb',
+              paddingTop: '16px',
               marginTop: '16px',
               marginBottom: '16px'
             }}>
@@ -396,32 +415,13 @@ const NodeDetailPanel = ({
 
             <div style={{ marginBottom: '16px' }}>
               <label style={{ display: 'block', marginBottom: '6px', fontSize: '14px', fontWeight: '500' }}>
-                Frequency
+                JIRA Feature/Capability
               </label>
               <input
                 type="text"
-                value={formData.frequency}
-                onChange={(e) => handleChange('frequency', e.target.value)}
-                placeholder="e.g., Real-time, Daily, Hourly"
-                style={{
-                  width: '100%',
-                  padding: '8px 12px',
-                  border: '1px solid #d1d5db',
-                  borderRadius: '6px',
-                  fontSize: '14px'
-                }}
-              />
-            </div>
-
-            <div style={{ marginBottom: '16px' }}>
-              <label style={{ display: 'block', marginBottom: '6px', fontSize: '14px', fontWeight: '500' }}>
-                Data Volume
-              </label>
-              <input
-                type="text"
-                value={formData.dataVolume}
-                onChange={(e) => handleChange('dataVolume', e.target.value)}
-                placeholder="e.g., 1000 records/day"
+                value={formData.jiraFeature}
+                onChange={(e) => handleChange('jiraFeature', e.target.value)}
+                placeholder="e.g., PROJ-123"
                 style={{
                   width: '100%',
                   padding: '8px 12px',
