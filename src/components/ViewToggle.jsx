@@ -36,7 +36,7 @@ const ViewToggle = ({ view, onViewChange }) => {
           boxShadow: view === 'as-is' ? '0 2px 8px rgba(102, 126, 234, 0.3)' : 'none'
         }}
       >
-        📊 As-Is
+        📊 As-Is Architecture
       </button>
       <button
         onClick={() => onViewChange('to-be')}
@@ -55,7 +55,7 @@ const ViewToggle = ({ view, onViewChange }) => {
           boxShadow: view === 'to-be' ? '0 2px 8px rgba(102, 126, 234, 0.3)' : 'none'
         }}
       >
-        🚀 To-Be
+        🚀 To-Be Architecture
       </button>
     </div>
   );
