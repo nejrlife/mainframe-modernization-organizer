@@ -139,25 +139,25 @@ const Statistics = ({ nodes, edges }) => {
           Systems ({stats.totalNodes})
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-          <StatItem 
-            label="Modernized" 
-            value={stats.modernizedNodes} 
-            color="#10b981" 
+          <StatItem
+            label="Completed"
+            value={stats.modernizedNodes}
+            color="#10b981"
           />
-          <StatItem 
-            label="In Progress" 
-            value={stats.inProgressNodes} 
-            color="#f59e0b" 
+          <StatItem
+            label="In Progress"
+            value={stats.inProgressNodes}
+            color="#f59e0b"
           />
-          <StatItem 
-            label="Legacy" 
-            value={stats.legacyNodes} 
-            color="#ef4444" 
+          <StatItem
+            label="Blocked"
+            value={stats.legacyNodes}
+            color="#ef4444"
           />
-          <StatItem 
-            label="Deprecated" 
-            value={stats.nodesByStatus['Deprecated'] || 0} 
-            color="#6b7280" 
+          <StatItem
+            label="Not Started"
+            value={stats.nodesByStatus['Not Started'] || 0}
+            color="#6b7280"
           />
         </div>
       </div>

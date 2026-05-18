@@ -20,8 +20,8 @@ const NodeDetailPanel = ({
       if (elementType === 'node') {
         setFormData({
           label: selectedElement.data.label || '',
-          status: selectedElement.data.status || 'Legacy',
-          modernizationTarget: selectedElement.data.modernizationTarget || 'Retain',
+          status: selectedElement.data.status || 'Blocked',
+          modernizationTarget: selectedElement.data.modernizationTarget || 'Keep',
           technology: selectedElement.data.details?.technology || '',
           criticality: selectedElement.data.details?.criticality || 'Medium',
           description: selectedElement.data.details?.description || '',

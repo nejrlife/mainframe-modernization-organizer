@@ -3,18 +3,18 @@
 
 // Node Status Types
 export const NODE_STATUS = {
-  LEGACY: 'Legacy',
+  LEGACY: 'Blocked',
   IN_PROGRESS: 'In Progress',
-  MODERNIZED: 'Modernized',
-  DEPRECATED: 'Deprecated'
+  MODERNIZED: 'Completed',
+  DEPRECATED: 'Not Started'
 };
 
 // Node Status Colors
 export const NODE_STATUS_COLORS = {
-  [NODE_STATUS.LEGACY]: '#ef4444', // Red
-  [NODE_STATUS.IN_PROGRESS]: '#f59e0b', // Orange/Yellow
-  [NODE_STATUS.MODERNIZED]: '#10b981', // Green
-  [NODE_STATUS.DEPRECATED]: '#6b7280' // Gray
+  [NODE_STATUS.LEGACY]: '#ef4444', // Red - Blocked
+  [NODE_STATUS.IN_PROGRESS]: '#f59e0b', // Orange/Yellow - In Progress
+  [NODE_STATUS.MODERNIZED]: '#10b981', // Green - Completed
+  [NODE_STATUS.DEPRECATED]: '#6b7280' // Gray - Not Started
 };
 
 // Integration Status Types

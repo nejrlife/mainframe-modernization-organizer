@@ -253,10 +253,10 @@ function App() {
           <MiniMap
             nodeColor={(node) => {
               const statusColors = {
-                'Legacy': '#ef4444',
+                'Blocked': '#ef4444',
                 'In Progress': '#f59e0b',
-                'Modernized': '#10b981',
-                'Deprecated': '#6b7280'
+                'Completed': '#10b981',
+                'Not Started': '#6b7280'
               };
               return statusColors[node.data.status] || '#6b7280';
             }}
