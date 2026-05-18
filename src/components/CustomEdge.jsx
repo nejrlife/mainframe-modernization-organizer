@@ -1,6 +1,6 @@
 import { memo } from 'react';
 import { BaseEdge, EdgeLabelRenderer, getBezierPath } from 'reactflow';
-import { INTEGRATION_STATUS_COLORS } from '../schema';
+import { INTEGRATION_STATUS_COLORS, INTEGRATION_TYPE_ICONS } from '../schema';
 
 /**
  * CustomEdge Component
@@ -64,10 +64,14 @@ const CustomEdge = ({
               borderRadius: '6px',
               border: `2px solid ${statusColor}`,
               boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
-              whiteSpace: 'nowrap'
+              whiteSpace: 'nowrap',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '4px'
             }}
           >
-            {data?.type || 'Integration'}
+            <span>{INTEGRATION_TYPE_ICONS[data?.integrationType] || '🔗'}</span>
+            <span>{data?.integrationType || 'Integration'}</span>
           </div>
         </div>
       </EdgeLabelRenderer>

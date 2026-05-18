@@ -35,21 +35,21 @@ export const INTEGRATION_STATUS_COLORS = {
 
 // Integration Types
 export const INTEGRATION_TYPES = {
-  API: 'API',
+  REST: 'REST',
+  SOAP: 'SOAP',
   FILE_TRANSFER: 'File Transfer',
   DATABASE: 'Database',
   MESSAGE_QUEUE: 'Message Queue',
-  BATCH: 'Batch',
   DIRECT: 'Direct'
 };
 
 // Integration Type Icons
 export const INTEGRATION_TYPE_ICONS = {
-  [INTEGRATION_TYPES.API]: '🔌',
+  [INTEGRATION_TYPES.REST]: '🔌',
+  [INTEGRATION_TYPES.SOAP]: '🔧',
   [INTEGRATION_TYPES.FILE_TRANSFER]: '📁',
   [INTEGRATION_TYPES.DATABASE]: '🗄️',
   [INTEGRATION_TYPES.MESSAGE_QUEUE]: '📨',
-  [INTEGRATION_TYPES.BATCH]: '⏱️',
   [INTEGRATION_TYPES.DIRECT]: '↔️'
 };
 
@@ -348,7 +348,7 @@ export const initialEdges = [
     id: 'e-mfta-inventory',
     source: 'mfta',
     target: 'inventory-check',
-    integrationType: INTEGRATION_TYPES.API,
+    integrationType: INTEGRATION_TYPES.REST,
     status: INTEGRATION_STATUS.IN_PROGRESS,
     direction: DIRECTION.UNIDIRECTIONAL,
     criticality: CRITICALITY.MEDIUM,
@@ -371,7 +371,6 @@ export const initialEdges = [
     frequency: 'Real-time',
     notes: 'Legacy integration via Tuxedo middleware'
   }),
-
 ];
 
 // Made with Bob
