@@ -225,7 +225,7 @@ export const initialNodes = [
       estimatedCost: '$500K',
       timeline: 'Q2-Q4 2024',
       dependencies: ['MFTAWrapIt', 'MFTA'],
-      risks: ['Legacy TIBCO integration', 'High availability requirements'],
+      risks: ['Legacy integration', 'High availability requirements'],
       notes: 'Critical customer-facing system. Requires 99.9% uptime.'
     }
   }),
@@ -372,7 +372,7 @@ export const initialNodes = [
 
   createNode({
     id: 'inventory-check',
-    label: 'Inventory Check Service',
+    label: 'Assets Check Service',
     position: { x: 1429.6, y: 371.00689655172414 },
     status: NODE_STATUS.MODERNIZED,
     modernizationTarget: MODERNIZATION_TARGET.DECOM,
