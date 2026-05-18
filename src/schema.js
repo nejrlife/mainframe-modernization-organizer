@@ -339,7 +339,7 @@ export const initialNodes = [
     id: 'mfta',
     label: 'MFTA (MainFrame Transformation Application)',
     position: { x: 700, y: 100 },
-    status: NODE_STATUS.COMPLETED,
+    status: NODE_STATUS.MODERNIZED,
     modernizationTarget: MODERNIZATION_TARGET.DECOM,
     poc: {
       name: 'MFTA Architecture Team',
@@ -366,7 +366,7 @@ export const initialNodes = [
     id: 'inventory-check',
     label: 'Inventory Check Service',
     position: { x: 400, y: 300 },
-    status: NODE_STATUS.COMPLETED,
+    status: NODE_STATUS.MODERNIZED,
     modernizationTarget: MODERNIZATION_TARGET.DECOM,
     poc: {
       name: 'Network Services Team',
@@ -393,7 +393,7 @@ export const initialNodes = [
     id: 'mainframe',
     label: 'Mainframe Systems',
     position: { x: 1000, y: 200 },
-    status: NODE_STATUS.COMPLETED,
+    status: NODE_STATUS.MODERNIZED,
     modernizationTarget: MODERNIZATION_TARGET.DECOM,
     poc: {
       name: 'Mainframe Operations',
