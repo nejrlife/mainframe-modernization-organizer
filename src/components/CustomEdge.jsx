@@ -17,7 +17,8 @@ const CustomEdge = ({
   targetPosition,
   data,
   markerEnd,
-  selected
+  selected,
+  style
 }) => {
   const [edgePath, labelX, labelY] = getBezierPath({
     sourceX,
@@ -31,6 +32,8 @@ const CustomEdge = ({
   const statusColor = INTEGRATION_STATUS_COLORS[data?.status] || '#6b7280';
   const strokeWidth = selected ? 3 : 2;
 
+  const edgeOpacity = style?.opacity !== undefined ? style.opacity : 1;
+
   return (
     <>
       <BaseEdge
@@ -41,7 +44,8 @@ const CustomEdge = ({
           stroke: statusColor,
           strokeWidth: strokeWidth,
           strokeDasharray: data?.type === 'Batch' ? '5,5' : 'none',
-          transition: 'all 0.2s ease'
+          transition: 'all 0.2s ease',
+          opacity: edgeOpacity
         }}
       />
       
@@ -53,7 +57,9 @@ const CustomEdge = ({
             transform: `translate(-50%, -50%) translate(${labelX}px,${labelY}px)`,
             pointerEvents: 'all',
             fontSize: '11px',
-            fontWeight: '500'
+            fontWeight: '500',
+            opacity: edgeOpacity,
+            transition: 'opacity 0.3s ease'
           }}
           className="nodrag nopan"
         >

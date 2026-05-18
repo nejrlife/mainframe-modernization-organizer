@@ -69,10 +69,10 @@ function App() {
     let shouldFade = false;
 
     if (view === 'as-is') {
-      // As-Is: Show Keep and Decom solidly, fade others
-      shouldFade = target !== 'Keep' && target !== 'Decom';
+      // As-Is: Show Keep, Upgrade, and Decom solidly, fade others (New)
+      shouldFade = target !== 'Keep' && target !== 'Upgrade' && target !== 'Decom';
     } else if (view === 'to-be') {
-      // To-Be: Show Keep, Upgrade, and New solidly, fade others
+      // To-Be: Show Keep, Upgrade, and New solidly, fade others (Decom)
       shouldFade = target !== 'Keep' && target !== 'Upgrade' && target !== 'New';
     }
 
@@ -92,6 +92,29 @@ function App() {
       }
     }));
   }, [nodes, getNodeStyle]);
+
+  // Apply opacity to edges based on connected nodes
+  const styledEdges = useMemo(() => {
+    return edges.map(edge => {
+      const sourceNode = nodes.find(n => n.id === edge.source);
+      const targetNode = nodes.find(n => n.id === edge.target);
+      
+      // Fade edge if either connected node is faded
+      const sourceStyle = sourceNode ? getNodeStyle(sourceNode) : { opacity: 1 };
+      const targetStyle = targetNode ? getNodeStyle(targetNode) : { opacity: 1 };
+      const shouldFade = sourceStyle.opacity < 1 || targetStyle.opacity < 1;
+
+      return {
+        ...edge,
+        style: {
+          ...edge.style,
+          opacity: shouldFade ? 0.3 : 1,
+          transition: 'opacity 0.3s ease'
+        },
+        animated: edge.animated && !shouldFade // Disable animation for faded edges
+      };
+    });
+  }, [edges, nodes, getNodeStyle]);
 
   // Splash screen timer
   useEffect(() => {
@@ -268,7 +291,7 @@ function App() {
       <div ref={reactFlowWrapper} style={{ width: '100%', height: '100%' }}>
         <ReactFlow
           nodes={styledNodes}
-          edges={edges}
+          edges={styledEdges}
           onNodesChange={onNodesChange}
           onEdgesChange={onEdgesChange}
           onConnect={onConnect}
