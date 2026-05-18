@@ -255,6 +255,33 @@ export const initialNodes = [
   }),
 
   createNode({
+    id: 'datastorage',
+    label: 'DataStorage',
+    position: { x: 250, y: 250 },
+    status: NODE_STATUS.IN_PROGRESS,
+    modernizationTarget: MODERNIZATION_TARGET.NEW,
+    poc: {
+      name: 'Data Team Lead',
+      email: 'data.team@company.com',
+      phone: '+1-555-0160',
+      department: 'Data Engineering'
+    },
+    details: {
+      description: 'Central data storage and management system',
+      technology: 'PostgreSQL, Redis',
+      criticality: CRITICALITY.HIGH,
+      users: 5000,
+      lastUpdated: '2024-01-25',
+      migrationTarget: 'Cloud-native database services',
+      estimatedCost: '$400K',
+      timeline: 'Q3-Q4 2024',
+      dependencies: ['HelloBackend'],
+      risks: ['Data migration', 'Performance optimization'],
+      notes: 'Critical data layer supporting backend operations.'
+    }
+  }),
+
+  createNode({
     id: 'mftawrapit',
     label: 'MFTAWrapIt',
     position: { x: 450, y: 100 },
@@ -378,6 +405,20 @@ export const initialEdges = [
     dataFormat: 'JSON',
     frequency: 'Real-time',
     notes: 'Frontend to backend API communication'
+  }),
+
+  createEdge({
+    id: 'e-hellobackend-datastorage',
+    source: 'hellobackend',
+    target: 'datastorage',
+    integrationType: INTEGRATION_TYPES.DATABASE,
+    status: INTEGRATION_STATUS.COMPLETED,
+    direction: DIRECTION.BIDIRECTIONAL,
+    criticality: CRITICALITY.HIGH,
+    protocol: 'SQL/TCP',
+    dataFormat: 'JSON',
+    frequency: 'Real-time',
+    notes: 'Backend to database connection for data persistence'
   }),
 
   createEdge({
