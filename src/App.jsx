@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef, useEffect } from 'react';
+import { useState, useCallback, useRef, useEffect, useMemo } from 'react';
 import ReactFlow, {
   MiniMap,
   Controls,
@@ -14,7 +14,8 @@ import CustomNode from './components/CustomNode';
 import CustomEdge from './components/CustomEdge';
 import NodeDetailPanel from './components/NodeDetailPanel';
 import Statistics from './components/Statistics';
-import { initialNodes, initialEdges, createNode, createEdge, MODERNIZATION_TARGET } from './schema';
+import ViewToggle from './components/ViewToggle';
+import { initialNodes, initialEdges, createNode, MODERNIZATION_TARGET } from './schema';
 
 const nodeTypes = {
   custom: CustomNode,
@@ -31,6 +32,7 @@ const edgeTypes = {
  */
 function App() {
   const [showSplash, setShowSplash] = useState(true);
+  const [view, setView] = useState('as-is'); // 'as-is' or 'to-be'
   
   // Load saved data from localStorage or use initial data
   const getInitialNodes = () => {
@@ -60,6 +62,36 @@ function App() {
   const [selectedElementType, setSelectedElementType] = useState(null);
   const reactFlowWrapper = useRef(null);
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
+
+  // Apply opacity based on view mode
+  const getNodeStyle = useCallback((node) => {
+    const target = node.data.modernizationTarget;
+    let shouldFade = false;
+
+    if (view === 'as-is') {
+      // As-Is: Show Keep and Decom solidly, fade others
+      shouldFade = target !== 'Keep' && target !== 'Decom';
+    } else if (view === 'to-be') {
+      // To-Be: Show Keep, Upgrade, and New solidly, fade others
+      shouldFade = target !== 'Keep' && target !== 'Upgrade' && target !== 'New';
+    }
+
+    return {
+      opacity: shouldFade ? 0.3 : 1,
+      transition: 'opacity 0.3s ease'
+    };
+  }, [view]);
+
+  // Apply styles to nodes based on view
+  const styledNodes = useMemo(() => {
+    return nodes.map(node => ({
+      ...node,
+      style: {
+        ...node.style,
+        ...getNodeStyle(node)
+      }
+    }));
+  }, [nodes, getNodeStyle]);
 
   // Splash screen timer
   useEffect(() => {
@@ -229,10 +261,13 @@ function App() {
   // Main application
   return (
     <div style={{ width: '100vw', height: '100vh', position: 'relative' }}>
+      {/* View Toggle */}
+      <ViewToggle view={view} onViewChange={setView} />
+
       {/* ReactFlow Canvas */}
       <div ref={reactFlowWrapper} style={{ width: '100%', height: '100%' }}>
         <ReactFlow
-          nodes={nodes}
+          nodes={styledNodes}
           edges={edges}
           onNodesChange={onNodesChange}
           onEdgesChange={onEdgesChange}
