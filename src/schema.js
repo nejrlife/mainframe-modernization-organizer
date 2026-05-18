@@ -203,7 +203,7 @@ export const initialNodes = [
   createNode({
     id: 'hellofrontend',
     label: 'HelloFrontend System',
-    position: { x: 100, y: 100 },
+    position: { x: -521, y: 116 },
     status: NODE_STATUS.MODERNIZED,
     modernizationTarget: MODERNIZATION_TARGET.KEEP,
     poc: {
@@ -230,7 +230,7 @@ export const initialNodes = [
   createNode({
     id: 'hellobackend',
     label: 'HelloBackend System',
-    position: { x: 250, y: 100 },
+    position: { x: -115.96204178658297, y: 121.37101482706359 },
     status: NODE_STATUS.MODERNIZED,
     modernizationTarget: MODERNIZATION_TARGET.KEEP,
     poc: {
@@ -257,7 +257,7 @@ export const initialNodes = [
   createNode({
     id: 'datastorage',
     label: 'DataStorage',
-    position: { x: 250, y: 250 },
+    position: { x: 367.7333169535875, y: 353.35815436764193 },
     status: NODE_STATUS.IN_PROGRESS,
     modernizationTarget: MODERNIZATION_TARGET.NEW,
     poc: {
@@ -284,7 +284,7 @@ export const initialNodes = [
   createNode({
     id: 'aas',
     label: 'Address Attainment Service (AAS)',
-    position: { x: 400, y: 100 },
+    position: { x: 363.38875247581007, y: 611.2358693379044 },
     status: NODE_STATUS.IN_PROGRESS,
     modernizationTarget: MODERNIZATION_TARGET.UPGRADE,
     poc: {
@@ -311,7 +311,7 @@ export const initialNodes = [
   createNode({
     id: 'mftawrapit',
     label: 'MFTAWrapIt',
-    position: { x: 550, y: 100 },
+    position: { x: 365.03355011459416, y: 123.56365195332617 },
     status: NODE_STATUS.IN_PROGRESS,
     modernizationTarget: MODERNIZATION_TARGET.DECOM,
     poc: {
@@ -338,7 +338,7 @@ export const initialNodes = [
   createNode({
     id: 'mfta',
     label: 'MFTA (MainFrame Transformation Application)',
-    position: { x: 700, y: 100 },
+    position: { x: 737.9737636199059, y: 108.00456494165775 },
     status: NODE_STATUS.MODERNIZED,
     modernizationTarget: MODERNIZATION_TARGET.DECOM,
     poc: {
@@ -365,7 +365,7 @@ export const initialNodes = [
   createNode({
     id: 'inventory-check',
     label: 'Inventory Check Service',
-    position: { x: 400, y: 300 },
+    position: { x: 1429.6, y: 371.00689655172414 },
     status: NODE_STATUS.MODERNIZED,
     modernizationTarget: MODERNIZATION_TARGET.DECOM,
     poc: {
@@ -392,7 +392,7 @@ export const initialNodes = [
   createNode({
     id: 'mainframe',
     label: 'Mainframe Systems',
-    position: { x: 1000, y: 200 },
+    position: { x: 1443.7931034482758, y: -1.186206896551667 },
     status: NODE_STATUS.MODERNIZED,
     modernizationTarget: MODERNIZATION_TARGET.DECOM,
     poc: {
