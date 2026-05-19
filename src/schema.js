@@ -259,61 +259,61 @@ export const initialNodes = [
     }
   }),
 
-  createNode({
-    id: 'datastorage',
-    label: 'DataStorage',
-    position: { x: 367.7333169535875, y: 353.35815436764193 },
-    status: NODE_STATUS.IN_PROGRESS,
-    modernizationTarget: MODERNIZATION_TARGET.NEW,
-    poc: {
-      name: 'Data Team Lead',
-      email: 'data.team@company.com',
-      phone: '+1-555-0160',
-      department: 'Data Engineering'
-    },
-    details: {
-      description: 'Central data storage and management system',
-      technology: 'Microsoft Azure Functions',
-      criticality: CRITICALITY.HIGH,
-      jiraFeature: 'PROJ-103',
-      users: 5000,
-      lastUpdated: '2024-01-25',
-      migrationTarget: 'Cloud-native database services',
-      estimatedCost: '$400K',
-      timeline: 'Q3-Q4 2024',
-      dependencies: ['HelloBackend'],
-      risks: ['Data migration', 'Performance optimization'],
-      notes: 'Critical data layer supporting backend operations.'
-    }
-  }),
+  // createNode({
+  //   id: 'datastorage',
+  //   label: 'DataStorage',
+  //   position: { x: 367.7333169535875, y: 353.35815436764193 },
+  //   status: NODE_STATUS.IN_PROGRESS,
+  //   modernizationTarget: MODERNIZATION_TARGET.NEW,
+  //   poc: {
+  //     name: 'Data Team Lead',
+  //     email: 'data.team@company.com',
+  //     phone: '+1-555-0160',
+  //     department: 'Data Engineering'
+  //   },
+  //   details: {
+  //     description: 'Central data storage and management system',
+  //     technology: 'Microsoft Azure Functions',
+  //     criticality: CRITICALITY.HIGH,
+  //     jiraFeature: 'PROJ-103',
+  //     users: 5000,
+  //     lastUpdated: '2024-01-25',
+  //     migrationTarget: 'Cloud-native database services',
+  //     estimatedCost: '$400K',
+  //     timeline: 'Q3-Q4 2024',
+  //     dependencies: ['HelloBackend'],
+  //     risks: ['Data migration', 'Performance optimization'],
+  //     notes: 'Critical data layer supporting backend operations.'
+  //   }
+  // }),
 
-  createNode({
-    id: 'aas',
-    label: 'Address Attainment Service (AAS)',
-    position: { x: 363.38875247581007, y: 611.2358693379044 },
-    status: NODE_STATUS.IN_PROGRESS,
-    modernizationTarget: MODERNIZATION_TARGET.UPGRADE,
-    poc: {
-      name: 'AAS Team Lead',
-      email: 'aas.team@company.com',
-      phone: '+1-555-0170',
-      department: 'Service Operations'
-    },
-    details: {
-      description: 'Address validation and attainment service for customer data',
-      technology: 'Java, Spring Boot',
-      criticality: CRITICALITY.HIGH,
-      jiraFeature: 'PROJ-104',
-      users: 8000,
-      lastUpdated: '2024-01-22',
-      migrationTarget: 'Modernized microservice with enhanced APIs',
-      estimatedCost: '$350K',
-      timeline: 'Q2-Q4 2024',
-      dependencies: ['HelloBackend', 'DataStorage'],
-      risks: ['Data quality', 'API compatibility'],
-      notes: 'Critical service for address validation being upgraded to modern architecture.'
-    }
-  }),
+  // createNode({
+  //   id: 'aas',
+  //   label: 'Address Attainment Service (AAS)',
+  //   position: { x: 363.38875247581007, y: 611.2358693379044 },
+  //   status: NODE_STATUS.IN_PROGRESS,
+  //   modernizationTarget: MODERNIZATION_TARGET.UPGRADE,
+  //   poc: {
+  //     name: 'AAS Team Lead',
+  //     email: 'aas.team@company.com',
+  //     phone: '+1-555-0170',
+  //     department: 'Service Operations'
+  //   },
+  //   details: {
+  //     description: 'Address validation and attainment service for customer data',
+  //     technology: 'Java, Spring Boot',
+  //     criticality: CRITICALITY.HIGH,
+  //     jiraFeature: 'PROJ-104',
+  //     users: 8000,
+  //     lastUpdated: '2024-01-22',
+  //     migrationTarget: 'Modernized microservice with enhanced APIs',
+  //     estimatedCost: '$350K',
+  //     timeline: 'Q2-Q4 2024',
+  //     dependencies: ['HelloBackend', 'DataStorage'],
+  //     risks: ['Data quality', 'API compatibility'],
+  //     notes: 'Critical service for address validation being upgraded to modern architecture.'
+  //   }
+  // }),
 
   createNode({
     id: 'mftawrapit',
@@ -332,7 +332,7 @@ export const initialNodes = [
       technology: 'C#',
       criticality: CRITICALITY.HIGH,
       jiraFeature: 'PROJ-105',
-      replacedBy: 'datastorage',
+      replacedBy: '',
       users: 50,
       lastUpdated: '2023-12-01',
       migrationTarget: 'Apache Kafka / RabbitMQ',
@@ -375,7 +375,7 @@ export const initialNodes = [
   createNode({
     id: 'inventory-check',
     label: 'Assets Check Service',
-    position: { x: 1429.6, y: 371.00689655172414 },
+    position: { x: 1466.7025371791176, y: 130.64698178265763 },
     status: NODE_STATUS.MODERNIZED,
     modernizationTarget: MODERNIZATION_TARGET.DECOM,
     poc: {
@@ -400,33 +400,33 @@ export const initialNodes = [
     }
   }),
 
-  createNode({
-    id: 'mainframe',
-    label: 'G-Systems Mainframe',
-    position: { x: 1443.7931034482758, y: -1.186206896551667 },
-    status: NODE_STATUS.MODERNIZED,
-    modernizationTarget: MODERNIZATION_TARGET.DECOM,
-    poc: {
-      name: 'Mainframe Operations',
-      email: 'mainframe@company.com',
-      phone: '+1-555-0500',
-      department: 'Legacy Systems'
-    },
-    details: {
-      description: 'Core business logic and data storage',
-      technology: 'COBOL, DB2, CICS',
-      criticality: CRITICALITY.HIGH,
-      jiraFeature: 'PROJ-108',
-      users: 500,
-      lastUpdated: '2023-10-15',
-      migrationTarget: 'Hybrid cloud with data modernization',
-      estimatedCost: '$3M+',
-      timeline: '2025-2027',
-      dependencies: ['Multiple systems'],
-      risks: ['Business continuity', 'Data migration complexity', 'Skills shortage'],
-      notes: 'Long-term modernization initiative. Requires extensive planning.'
-    }
-  }),
+  // createNode({
+  //   id: 'mainframe',
+  //   label: 'G-Systems Mainframe',
+  //   position: { x: 1443.7931034482758, y: -1.186206896551667 },
+  //   status: NODE_STATUS.MODERNIZED,
+  //   modernizationTarget: MODERNIZATION_TARGET.DECOM,
+  //   poc: {
+  //     name: 'Mainframe Operations',
+  //     email: 'mainframe@company.com',
+  //     phone: '+1-555-0500',
+  //     department: 'Legacy Systems'
+  //   },
+  //   details: {
+  //     description: 'Core business logic and data storage',
+  //     technology: 'COBOL, DB2, CICS',
+  //     criticality: CRITICALITY.HIGH,
+  //     jiraFeature: 'PROJ-108',
+  //     users: 500,
+  //     lastUpdated: '2023-10-15',
+  //     migrationTarget: 'Hybrid cloud with data modernization',
+  //     estimatedCost: '$3M+',
+  //     timeline: '2025-2027',
+  //     dependencies: ['Multiple systems'],
+  //     risks: ['Business continuity', 'Data migration complexity', 'Skills shortage'],
+  //     notes: 'Long-term modernization initiative. Requires extensive planning.'
+  //   }
+  // }),
 
 ];
 
@@ -447,35 +447,35 @@ export const initialEdges = [
     notes: 'Frontend to backend API communication'
   }),
 
-  createEdge({
-    id: 'e-hellobackend-datastorage',
-    source: 'hellobackend',
-    target: 'datastorage',
-    integrationType: INTEGRATION_TYPES.REST,
-    status: INTEGRATION_STATUS.IN_PROGRESS,
-    direction: DIRECTION.BIDIRECTIONAL,
-    criticality: CRITICALITY.HIGH,
-    protocol: 'SQL/TCP',
-    dataFormat: 'JSON',
-    frequency: 'Real-time',
-    jiraFeature: 'PROJ-202',
-    notes: 'Backend to database connection for data persistence'
-  }),
+  // createEdge({
+  //   id: 'e-hellobackend-datastorage',
+  //   source: 'hellobackend',
+  //   target: 'datastorage',
+  //   integrationType: INTEGRATION_TYPES.REST,
+  //   status: INTEGRATION_STATUS.IN_PROGRESS,
+  //   direction: DIRECTION.BIDIRECTIONAL,
+  //   criticality: CRITICALITY.HIGH,
+  //   protocol: 'SQL/TCP',
+  //   dataFormat: 'JSON',
+  //   frequency: 'Real-time',
+  //   jiraFeature: 'PROJ-202',
+  //   notes: 'Backend to database connection for data persistence'
+  // }),
 
-  createEdge({
-    id: 'e-hellobackend-aas',
-    source: 'hellobackend',
-    target: 'aas',
-    integrationType: INTEGRATION_TYPES.REST,
-    status: INTEGRATION_STATUS.IN_PROGRESS,
-    direction: DIRECTION.BIDIRECTIONAL,
-    criticality: CRITICALITY.HIGH,
-    protocol: 'REST API',
-    dataFormat: 'JSON',
-    frequency: 'Real-time',
-    jiraFeature: 'PROJ-203',
-    notes: 'Backend to AAS service for address validation'
-  }),
+  // createEdge({
+  //   id: 'e-hellobackend-aas',
+  //   source: 'hellobackend',
+  //   target: 'aas',
+  //   integrationType: INTEGRATION_TYPES.REST,
+  //   status: INTEGRATION_STATUS.IN_PROGRESS,
+  //   direction: DIRECTION.BIDIRECTIONAL,
+  //   criticality: CRITICALITY.HIGH,
+  //   protocol: 'REST API',
+  //   dataFormat: 'JSON',
+  //   frequency: 'Real-time',
+  //   jiraFeature: 'PROJ-203',
+  //   notes: 'Backend to AAS service for address validation'
+  // }),
 
   createEdge({
     id: 'e-hellobackend-mftawrapit',
@@ -522,20 +522,20 @@ export const initialEdges = [
     notes: 'Migrating from SOAP to REST API'
   }),
 
-  createEdge({
-    id: 'e-mfta-mainframe',
-    source: 'mfta',
-    target: 'mainframe',
-    integrationType: INTEGRATION_TYPES.DIRECT,
-    status: INTEGRATION_STATUS.COMPLETED,
-    direction: DIRECTION.BIDIRECTIONAL,
-    criticality: CRITICALITY.HIGH,
-    protocol: 'Tuxedo/ATMI',
-    dataFormat: 'Proprietary',
-    frequency: 'Real-time',
-    jiraFeature: 'PROJ-207',
-    notes: 'Legacy integration via Tuxedo middleware'
-  }),
+  // createEdge({
+  //   id: 'e-mfta-mainframe',
+  //   source: 'mfta',
+  //   target: 'mainframe',
+  //   integrationType: INTEGRATION_TYPES.DIRECT,
+  //   status: INTEGRATION_STATUS.COMPLETED,
+  //   direction: DIRECTION.BIDIRECTIONAL,
+  //   criticality: CRITICALITY.HIGH,
+  //   protocol: 'Tuxedo/ATMI',
+  //   dataFormat: 'Proprietary',
+  //   frequency: 'Real-time',
+  //   jiraFeature: 'PROJ-207',
+  //   notes: 'Legacy integration via Tuxedo middleware'
+  // }),
 ];
 
 // Made with Bob
