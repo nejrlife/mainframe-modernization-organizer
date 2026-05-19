@@ -60,6 +60,7 @@ function App() {
   const [edges, setEdges, onEdgesChange] = useEdgesState(getInitialEdges());
   const [selectedElement, setSelectedElement] = useState(null);
   const [selectedElementType, setSelectedElementType] = useState(null);
+  const [showEditPanel, setShowEditPanel] = useState(false);
   const reactFlowWrapper = useRef(null);
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
 
@@ -207,18 +208,21 @@ function App() {
   const onNodeClick = useCallback((event, node) => {
     setSelectedElement(node);
     setSelectedElementType('node');
+    setShowEditPanel(false); // Don't show panel until edit button is clicked
   }, []);
 
   // Handle edge click (FR-2.3.1)
   const onEdgeClick = useCallback((event, edge) => {
     setSelectedElement(edge);
     setSelectedElementType('edge');
+    setShowEditPanel(false); // Don't show panel until edit button is clicked
   }, []);
 
   // Handle pane click to deselect
   const onPaneClick = useCallback(() => {
     setSelectedElement(null);
     setSelectedElementType(null);
+    setShowEditPanel(false);
   }, []);
 
   // Update node or edge (FR-2.3.2)
@@ -251,12 +255,14 @@ function App() {
     }
     setSelectedElement(null);
     setSelectedElementType(null);
+    setShowEditPanel(false);
   }, [selectedElementType, setNodes, setEdges]);
 
   // Close detail panel
   const handleClosePanel = useCallback(() => {
     setSelectedElement(null);
     setSelectedElementType(null);
+    setShowEditPanel(false);
   }, []);
 
   // Add new node (FR-2.3.4)
@@ -370,7 +376,7 @@ function App() {
       <Statistics nodes={nodes} edges={edges} />
 
       {/* Detail Panel */}
-      {selectedElement && (
+      {selectedElement && showEditPanel && (
         <NodeDetailPanel
           selectedElement={selectedElement}
           elementType={selectedElementType}
@@ -380,6 +386,44 @@ function App() {
           nodes={nodes}
           edges={edges}
         />
+      )}
+
+      {/* Floating Action Button - Edit (shows when node/edge selected) */}
+      {selectedElement && (
+        <button
+          onClick={() => setShowEditPanel(true)}
+          style={{
+            position: 'fixed',
+            bottom: '92px',
+            right: '24px',
+            width: '56px',
+            height: '56px',
+            borderRadius: '50%',
+            background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
+            border: 'none',
+            color: 'white',
+            fontSize: '24px',
+            cursor: 'pointer',
+            boxShadow: '0 4px 12px rgba(245, 158, 11, 0.4)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            transition: 'transform 0.3s, box-shadow 0.3s, opacity 0.3s',
+            zIndex: 1002,
+            animation: 'fadeIn 0.3s ease-in'
+          }}
+          onMouseEnter={(e) => {
+            e.target.style.transform = 'scale(1.1)';
+            e.target.style.boxShadow = '0 6px 16px rgba(245, 158, 11, 0.5)';
+          }}
+          onMouseLeave={(e) => {
+            e.target.style.transform = 'scale(1)';
+            e.target.style.boxShadow = '0 4px 12px rgba(245, 158, 11, 0.4)';
+          }}
+          title={`Edit ${selectedElementType === 'node' ? 'System Node' : 'Integration'}`}
+        >
+          ✏️
+        </button>
       )}
 
       {/* Floating Action Button - Add System */}
