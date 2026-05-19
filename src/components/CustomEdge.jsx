@@ -33,6 +33,7 @@ const CustomEdge = ({
   const strokeWidth = selected ? 3 : 2;
 
   const edgeOpacity = style?.opacity !== undefined ? style.opacity : 1;
+  const strokeDasharray = style?.strokeDasharray || (data?.type === 'Batch' ? '5,5' : 'none');
 
   return (
     <>
@@ -43,7 +44,7 @@ const CustomEdge = ({
         style={{
           stroke: statusColor,
           strokeWidth: strokeWidth,
-          strokeDasharray: data?.type === 'Batch' ? '5,5' : 'none',
+          strokeDasharray: strokeDasharray,
           transition: 'all 0.2s ease',
           opacity: edgeOpacity
         }}

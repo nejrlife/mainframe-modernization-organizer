@@ -104,17 +104,49 @@ function App() {
       const targetStyle = targetNode ? getNodeStyle(targetNode) : { opacity: 1 };
       const shouldFade = sourceStyle.opacity < 1 || targetStyle.opacity < 1;
 
+      // Check if edge should be dotted (for decom nodes with replacedBy)
+      let shouldBeDotted = false;
+      
+      // Only show dotted lines when a node is selected
+      if (selectedElement && selectedElementType === 'node') {
+        const selectedNode = nodes.find(n => n.id === selectedElement.id);
+        
+        // Check if selected node is a decom node with replacedBy
+        if (selectedNode?.data?.modernizationTarget === 'Decom' && selectedNode?.data?.details?.replacedBy) {
+          const replacerId = selectedNode.data.details.replacedBy;
+          
+          // Dotted if edge targets the selected decom node or its replacer
+          if (edge.target === selectedNode.id || edge.target === replacerId) {
+            shouldBeDotted = true;
+          }
+        }
+        
+        // Check if selected node is a replacer for any decom node
+        const decomNodeForSelected = nodes.find(
+          n => n.data?.modernizationTarget === 'Decom' &&
+               n.data?.details?.replacedBy === selectedNode?.id
+        );
+        
+        if (decomNodeForSelected) {
+          // Dotted if edge targets the decom node or the selected replacer
+          if (edge.target === decomNodeForSelected.id || edge.target === selectedNode.id) {
+            shouldBeDotted = true;
+          }
+        }
+      }
+
       return {
         ...edge,
         style: {
           ...edge.style,
           opacity: shouldFade ? 0.3 : 1,
+          strokeDasharray: shouldBeDotted ? '5,5' : undefined,
           transition: 'opacity 0.3s ease'
         },
         animated: edge.animated && !shouldFade // Disable animation for faded edges
       };
     });
-  }, [edges, nodes, getNodeStyle]);
+  }, [edges, nodes, getNodeStyle, selectedElement, selectedElementType]);
 
   // Splash screen timer
   useEffect(() => {
@@ -335,6 +367,7 @@ function App() {
           onUpdate={handleUpdate}
           onDelete={handleDelete}
           onClose={handleClosePanel}
+          nodes={nodes}
         />
       )}
 

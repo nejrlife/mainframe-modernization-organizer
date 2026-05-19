@@ -6,12 +6,13 @@ import { NODE_STATUSES, INTEGRATION_TYPES_ARRAY, INTEGRATION_STATUSES, CRITICALI
  * Provides CRUD operations for nodes and edges
  * Requirements: FR-2.3.1, FR-2.3.2, FR-2.3.3, FR-2.3.4
  */
-const NodeDetailPanel = ({ 
-  selectedElement, 
-  onUpdate, 
-  onDelete, 
+const NodeDetailPanel = ({
+  selectedElement,
+  onUpdate,
+  onDelete,
   onClose,
-  elementType // 'node' or 'edge'
+  elementType, // 'node' or 'edge'
+  nodes // all nodes for replacedBy dropdown
 }) => {
   const [formData, setFormData] = useState({});
 
@@ -26,6 +27,7 @@ const NodeDetailPanel = ({
           criticality: selectedElement.data.details?.criticality || 'Medium',
           description: selectedElement.data.details?.description || '',
           jiraFeature: selectedElement.data.details?.jiraFeature || '',
+          replacedBy: selectedElement.data.details?.replacedBy || '',
           pocName: selectedElement.data.poc?.name || '',
           pocEmail: selectedElement.data.poc?.email || '',
           pocRole: selectedElement.data.poc?.role || ''
@@ -61,7 +63,8 @@ const NodeDetailPanel = ({
             technology: formData.technology,
             criticality: formData.criticality,
             description: formData.description,
-            jiraFeature: formData.jiraFeature
+            jiraFeature: formData.jiraFeature,
+            replacedBy: formData.replacedBy
           },
           poc: {
             name: formData.pocName,
@@ -281,6 +284,35 @@ const NodeDetailPanel = ({
                 }}
               />
             </div>
+
+            {/* Replaced By field - only show for Decom nodes */}
+            {formData.modernizationTarget === 'Decom' && (
+              <div style={{ marginBottom: '16px' }}>
+                <label style={{ display: 'block', marginBottom: '6px', fontSize: '14px', fontWeight: '500' }}>
+                  Replaced By
+                </label>
+                <select
+                  value={formData.replacedBy}
+                  onChange={(e) => handleChange('replacedBy', e.target.value)}
+                  style={{
+                    width: '100%',
+                    padding: '8px 12px',
+                    border: '1px solid #d1d5db',
+                    borderRadius: '6px',
+                    fontSize: '14px'
+                  }}
+                >
+                  <option value="">-- Select Replacement System --</option>
+                  {nodes && nodes
+                    .filter(node => node.id !== selectedElement.id)
+                    .map(node => (
+                      <option key={node.id} value={node.id}>
+                        {node.data.label}
+                      </option>
+                    ))}
+                </select>
+              </div>
+            )}
 
             <div style={{
               borderTop: '1px solid #e5e7eb',
