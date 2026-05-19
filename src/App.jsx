@@ -106,6 +106,7 @@ function App() {
 
       // Check if edge should be dotted (for decom nodes with replacedBy)
       let shouldBeDotted = false;
+      let isDecomEdge = false; // Track if edge is connected to decom node
       
       // Only show dotted lines when a node is selected
       if (selectedElement && selectedElementType === 'node') {
@@ -118,6 +119,10 @@ function App() {
           // Dotted if edge targets the selected decom node or its replacer
           if (edge.target === selectedNode.id || edge.target === replacerId) {
             shouldBeDotted = true;
+            // Mark as decom edge if targeting the decom node
+            if (edge.target === selectedNode.id) {
+              isDecomEdge = true;
+            }
           }
         }
         
@@ -131,6 +136,10 @@ function App() {
           // Dotted if edge targets the decom node or the selected replacer
           if (edge.target === decomNodeForSelected.id || edge.target === selectedNode.id) {
             shouldBeDotted = true;
+            // Mark as decom edge if targeting the decom node
+            if (edge.target === decomNodeForSelected.id) {
+              isDecomEdge = true;
+            }
           }
         }
       }
@@ -141,6 +150,7 @@ function App() {
           ...edge.style,
           opacity: shouldFade ? 0.3 : 1,
           strokeDasharray: shouldBeDotted ? '5,5' : undefined,
+          animationDirection: isDecomEdge ? 'reverse' : 'normal',
           transition: 'opacity 0.3s ease'
         },
         animated: edge.animated && !shouldFade // Disable animation for faded edges

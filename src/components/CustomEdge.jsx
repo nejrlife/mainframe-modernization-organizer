@@ -34,6 +34,11 @@ const CustomEdge = ({
 
   const edgeOpacity = style?.opacity !== undefined ? style.opacity : 1;
   const strokeDasharray = style?.strokeDasharray || (data?.type === 'Batch' ? '5,5' : 'none');
+  const hasDottedLine = strokeDasharray === '5,5';
+  const animationDirection = style?.animationDirection || 'normal';
+  
+  // Use purple color for dotted lines, otherwise use status color
+  const edgeColor = hasDottedLine ? '#9333ea' : statusColor;
 
   return (
     <>
@@ -42,13 +47,23 @@ const CustomEdge = ({
         path={edgePath}
         markerEnd={markerEnd}
         style={{
-          stroke: statusColor,
+          stroke: edgeColor,
           strokeWidth: strokeWidth,
           strokeDasharray: strokeDasharray,
+          strokeDashoffset: hasDottedLine ? 0 : undefined,
+          animation: hasDottedLine ? 'dashmove 1s linear infinite' : 'none',
+          animationDirection: animationDirection,
           transition: 'all 0.2s ease',
           opacity: edgeOpacity
         }}
       />
+      <style>{`
+        @keyframes dashmove {
+          to {
+            stroke-dashoffset: -10;
+          }
+        }
+      `}</style>
       
       {/* Edge Label */}
       <EdgeLabelRenderer>
