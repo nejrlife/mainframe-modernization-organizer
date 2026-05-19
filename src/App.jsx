@@ -240,8 +240,9 @@ function App() {
         )
       );
     }
-    setSelectedElement(null);
-    setSelectedElementType(null);
+    // Keep the element selected with updated data to show dotted lines
+    setSelectedElement(updatedElement);
+    setShowEditPanel(false); // Close the edit panel but keep selection
   }, [selectedElementType, setNodes, setEdges]);
 
   // Delete node or edge (FR-2.3.3)
