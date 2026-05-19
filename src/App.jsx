@@ -378,6 +378,7 @@ function App() {
           onDelete={handleDelete}
           onClose={handleClosePanel}
           nodes={nodes}
+          edges={edges}
         />
       )}
 

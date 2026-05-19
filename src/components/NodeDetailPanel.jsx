@@ -12,7 +12,8 @@ const NodeDetailPanel = ({
   onDelete,
   onClose,
   elementType, // 'node' or 'edge'
-  nodes // all nodes for replacedBy dropdown
+  nodes, // all nodes for replacedBy dropdown
+  edges // all edges for determining parent-child relationships
 }) => {
   const [formData, setFormData] = useState({});
 
@@ -286,33 +287,51 @@ const NodeDetailPanel = ({
             </div>
 
             {/* Replaced By field - only show for Decom nodes */}
-            {formData.modernizationTarget === 'Decom' && (
-              <div style={{ marginBottom: '16px' }}>
-                <label style={{ display: 'block', marginBottom: '6px', fontSize: '14px', fontWeight: '500' }}>
-                  Replaced By
-                </label>
-                <select
-                  value={formData.replacedBy}
-                  onChange={(e) => handleChange('replacedBy', e.target.value)}
-                  style={{
-                    width: '100%',
-                    padding: '8px 12px',
-                    border: '1px solid #d1d5db',
-                    borderRadius: '6px',
-                    fontSize: '14px'
-                  }}
-                >
-                  <option value="">-- Select Replacement System --</option>
-                  {nodes && nodes
-                    .filter(node => node.id !== selectedElement.id)
-                    .map(node => (
+            {formData.modernizationTarget === 'Decom' && (() => {
+              // Find parent nodes (nodes that have edges targeting this decom node)
+              const parentNodeIds = edges
+                ? edges
+                    .filter(edge => edge.target === selectedElement.id)
+                    .map(edge => edge.source)
+                : [];
+              
+              // Find children of parent nodes (nodes that parents connect to, excluding this decom node)
+              const childrenOfParents = edges && nodes
+                ? nodes.filter(node => {
+                    if (node.id === selectedElement.id) return false; // Exclude self
+                    // Check if any parent has an edge to this node
+                    return edges.some(edge =>
+                      parentNodeIds.includes(edge.source) && edge.target === node.id
+                    );
+                  })
+                : [];
+              
+              return (
+                <div style={{ marginBottom: '16px' }}>
+                  <label style={{ display: 'block', marginBottom: '6px', fontSize: '14px', fontWeight: '500' }}>
+                    Replaced By
+                  </label>
+                  <select
+                    value={formData.replacedBy}
+                    onChange={(e) => handleChange('replacedBy', e.target.value)}
+                    style={{
+                      width: '100%',
+                      padding: '8px 12px',
+                      border: '1px solid #d1d5db',
+                      borderRadius: '6px',
+                      fontSize: '14px'
+                    }}
+                  >
+                    <option value="">-- Select Replacement System --</option>
+                    {childrenOfParents.map(node => (
                       <option key={node.id} value={node.id}>
                         {node.data.label}
                       </option>
                     ))}
-                </select>
-              </div>
-            )}
+                  </select>
+                </div>
+              );
+            })()}
 
             <div style={{
               borderTop: '1px solid #e5e7eb',
