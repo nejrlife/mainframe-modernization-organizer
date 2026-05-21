@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1920" height="1080" viewBox="0 0 1920 1080" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background Gradient -->
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f172a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1e293b;stop-opacity:1" />
+    </linearGradient>
+    
+    <linearGradient id="accentGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#8b5cf6;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1920" height="1080" fill="url(#bgGradient)"/>
+  
+  <!-- Title -->
+  <text x="960" y="180" font-family="Arial, sans-serif" font-size="64" font-weight="bold" fill="white" text-anchor="middle">
+    Key Benefits
+  </text>
+  
+  <!-- Benefit 1: Complete Visibility -->
+  <g transform="translate(960, 350)">
+    <!-- Icon Circle -->
+    <circle cx="-450" cy="0" r="60" fill="#1e293b" stroke="#3b82f6" stroke-width="4"/>
+    <!-- Eye Icon -->
+    <ellipse cx="-450" cy="0" rx="30" ry="20" fill="none" stroke="#3b82f6" stroke-width="3"/>
+    <circle cx="-450" cy="0" r="10" fill="#3b82f6"/>
+    
+    <!-- Checkmark -->
+    <text x="-550" y="15" font-family="Arial, sans-serif" font-size="48" fill="#10b981">✅</text>
+    
+    <!-- Text -->
+    <text x="-350" y="-20" font-family="Arial, sans-serif" font-size="42" font-weight="600" fill="white" text-anchor="start">
+      Complete Visibility
+    </text>
+    <text x="-350" y="30" font-family="Arial, sans-serif" font-size="32" fill="#94a3b8" text-anchor="start">
+      Into Your Modernization Landscape
+    </text>
+  </g>
+  
+  <!-- Benefit 2: Real-time Collaboration -->
+  <g transform="translate(960, 540)">
+    <!-- Icon Circle -->
+    <circle cx="-450" cy="0" r="60" fill="#1e293b" stroke="#8b5cf6" stroke-width="4"/>
+    <!-- Refresh/Sync Icon -->
+    <path d="M -470,-10 A 20,20 0 1,1 -430,-10" fill="none" stroke="#8b5cf6" stroke-width="3" stroke-linecap="round"/>
+    <polygon points="-430,-10 -425,-5 -425,-15" fill="#8b5cf6"/>
+    <path d="M -430,10 A 20,20 0 1,1 -470,10" fill="none" stroke="#8b5cf6" stroke-width="3" stroke-linecap="round"/>
+    <polygon points="-470,10 -475,5 -475,15" fill="#8b5cf6"/>
+    
+    <!-- Checkmark -->
+    <text x="-550" y="15" font-family="Arial, sans-serif" font-size="48" fill="#10b981">✅</text>
+    
+    <!-- Text -->
+    <text x="-350" y="-20" font-family="Arial, sans-serif" font-size="42" font-weight="600" fill="white" text-anchor="start">
+      Real-time Collaboration
+    </text>
+    <text x="-350" y="30" font-family="Arial, sans-serif" font-size="32" fill="#94a3b8" text-anchor="start">
+      And Progress Tracking
+    </text>
+  </g>
+  
+  <!-- Benefit 3: Clear Communication -->
+  <g transform="translate(960, 730)">
+    <!-- Icon Circle -->
+    <circle cx="-450" cy="0" r="60" fill="#1e293b" stroke="#3b82f6" stroke-width="4"/>
+    <!-- Chat Bubbles Icon -->
+    <rect x="-475" y="-15" width="35" height="25" rx="5" fill="none" stroke="#3b82f6" stroke-width="3"/>
+    <polygon points="-465,10 -460,15 -455,10" fill="#3b82f6"/>
+    <rect x="-445" y="0" width="35" height="25" rx="5" fill="none" stroke="#3b82f6" stroke-width="3"/>
+    
+    <!-- Checkmark -->
+    <text x="-550" y="15" font-family="Arial, sans-serif" font-size="48" fill="#10b981">✅</text>
+    
+    <!-- Text -->
+    <text x="-350" y="-20" font-family="Arial, sans-serif" font-size="42" font-weight="600" fill="white" text-anchor="start">
+      Clear Communication
+    </text>
+    <text x="-350" y="30" font-family="Arial, sans-serif" font-size="32" fill="#94a3b8" text-anchor="start">
+      Between Technical and Business Teams
+    </text>
+  </g>
+  
+  <!-- Bottom tagline -->
+  <text x="960" y="950" font-family="Arial, sans-serif" font-size="48" font-weight="600" fill="url(#accentGradient)" text-anchor="middle">
+    Mainframe Modernization Organizer
+  </text>
+  
+  <!-- Decorative elements -->
+  <g opacity="0.1">
+    <circle cx="200" cy="200" r="100" fill="none" stroke="#3b82f6" stroke-width="2"/>
+    <circle cx="1720" cy="200" r="100" fill="none" stroke="#8b5cf6" stroke-width="2"/>
+    <circle cx="200" cy="880" r="100" fill="none" stroke="#3b82f6" stroke-width="2"/>
+    <circle cx="1720" cy="880" r="100" fill="none" stroke="#8b5cf6" stroke-width="2"/>
+  </g>
+</svg>
+
+<!-- Made with Bob -->

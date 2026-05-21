@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1920" height="1080" viewBox="0 0 1920 1080" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background Gradient -->
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f172a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1e293b;stop-opacity:1" />
+    </linearGradient>
+    
+    <linearGradient id="accentGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#8b5cf6;stop-opacity:1" />
+    </linearGradient>
+    
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1920" height="1080" fill="url(#bgGradient)"/>
+  
+  <!-- Decorative circles -->
+  <g opacity="0.1">
+    <circle cx="200" cy="200" r="150" fill="none" stroke="#3b82f6" stroke-width="2"/>
+    <circle cx="1720" cy="200" r="150" fill="none" stroke="#8b5cf6" stroke-width="2"/>
+    <circle cx="200" cy="880" r="150" fill="none" stroke="#3b82f6" stroke-width="2"/>
+    <circle cx="1720" cy="880" r="150" fill="none" stroke="#8b5cf6" stroke-width="2"/>
+  </g>
+  
+  <!-- Main Content Container -->
+  <g transform="translate(960, 540)">
+    <!-- Decorative top line -->
+    <line x1="-400" y1="-200" x2="400" y2="-200" stroke="url(#accentGradient)" stroke-width="4" stroke-linecap="round"/>
+    
+    <!-- Team Label -->
+    <text x="0" y="-80" font-family="Arial, sans-serif" font-size="48" font-weight="300" fill="#94a3b8" text-anchor="middle">
+      Presented by
+    </text>
+    
+    <!-- Team Name - Single Line -->
+    <text x="0" y="40" font-family="Arial, sans-serif" font-size="96" font-weight="bold" fill="white" text-anchor="middle" filter="url(#glow)">
+      Team Lumen PH - NIERC
+    </text>
+    
+    <!-- Decorative bottom line -->
+    <line x1="-400" y1="200" x2="400" y2="200" stroke="url(#accentGradient)" stroke-width="4" stroke-linecap="round"/>
+  </g>
+  
+  <!-- Decorative corner accents -->
+  <g opacity="0.3">
+    <!-- Top left -->
+    <line x1="0" y1="0" x2="150" y2="0" stroke="#3b82f6" stroke-width="6"/>
+    <line x1="0" y1="0" x2="0" y2="150" stroke="#3b82f6" stroke-width="6"/>
+    
+    <!-- Top right -->
+    <line x1="1920" y1="0" x2="1770" y2="0" stroke="#8b5cf6" stroke-width="6"/>
+    <line x1="1920" y1="0" x2="1920" y2="150" stroke="#8b5cf6" stroke-width="6"/>
+    
+    <!-- Bottom left -->
+    <line x1="0" y1="1080" x2="150" y2="1080" stroke="#3b82f6" stroke-width="6"/>
+    <line x1="0" y1="1080" x2="0" y2="930" stroke="#3b82f6" stroke-width="6"/>
+    
+    <!-- Bottom right -->
+    <line x1="1920" y1="1080" x2="1770" y2="1080" stroke="#8b5cf6" stroke-width="6"/>
+    <line x1="1920" y1="1080" x2="1920" y2="930" stroke="#8b5cf6" stroke-width="6"/>
+  </g>
+  
+  <!-- Bottom tagline -->
+  <text x="960" y="950" font-family="Arial, sans-serif" font-size="32" fill="#64748b" text-anchor="middle" font-style="italic">
+    Mainframe Modernization Organizer
+  </text>
+</svg>
+
+<!-- Made with Bob -->
